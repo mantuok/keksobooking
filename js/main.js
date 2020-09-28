@@ -8,9 +8,9 @@ const ROOMS = [1, 2, 3, 4];
 const GUESTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const PHOTOS = [
-  "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
-  "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
-  "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
+  `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 const LISTING_NUMBER = 8;
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
@@ -18,10 +18,10 @@ const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
 
 const getUniqueElement = (arr) => {
-  const uniqueElement = arr[0]
+  const uniqueElement = arr[0];
   arr.splice(0, 1);
   return uniqueElement;
-}
+};
 
 const getRandomElement = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
@@ -32,7 +32,7 @@ const getRandomArray = (arr) => {
     newArr.push(arr[i]);
   }
   return newArr;
-}
+};
 
 const createListing = () => ({
   author: {
@@ -63,7 +63,7 @@ const createListingArray = (listingNumber) => {
     listings.push(createListing());
   }
   return listings;
-}
+};
 
 const renderPin = (listing) => {
   const pinElement = pinTemplate.cloneNode(true);
@@ -71,13 +71,13 @@ const renderPin = (listing) => {
   pinElement.querySelector(`img`).src = `${listing.author.avatar}`;
   pinElement.querySelector(`img`).alt = `${listing.offer.title}`;
   return pinElement;
-}
+};
 
 const renderPins = (listings) => {
   const fragment = document.createDocumentFragment();
   listings.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
   pins.appendChild(fragment);
-}
+};
 
 const listings = createListingArray(LISTING_NUMBER);
 
