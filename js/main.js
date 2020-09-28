@@ -1,4 +1,3 @@
-
 'use strict';
 
 const AVATAR_NUMBER = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -7,13 +6,15 @@ const CHECKIN_CHECKOUT = [`12:00`, `13:00`, `14:00`];
 const PRICE = [1000, 2000, 3000, 4000, 5000];
 const ROOMS = [1, 2, 3, 4];
 const GUESTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const PHOTOS = [
   "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
 ];
-
+const LISTING_NUMBER = 8;
+const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
 
 const getUniqueElement = (arr) => {
@@ -26,7 +27,7 @@ const getRandomElement = (min, max) => Math.floor(Math.random() * (max - min) + 
 
 const getRandomArray = (arr) => {
   const newArr = [];
-  const newArrLength = getRandomElement(0, arr.length);
+  const newArrLength = getRandomElement(1, arr.length - 1);
   for (let i = 0; i < newArrLength; i++) {
     newArr.push(arr[i]);
   }
@@ -35,7 +36,7 @@ const getRandomArray = (arr) => {
 
 const createListing = () => ({
   author: {
-    avatar: `img/avatars/user${getUniqueElement(AVATAR_NUMBER)}.png`
+    avatar: `img/avatars/user0${getUniqueElement(AVATAR_NUMBER)}.png`
   },
   offer: {
     title: `Lorem ipsum`,
@@ -47,8 +48,8 @@ const createListing = () => ({
     checkin: CHECKIN_CHECKOUT[getRandomElement(0, CHECKIN_CHECKOUT.length - 1)],
     checkout: CHECKIN_CHECKOUT[getRandomElement(0, CHECKIN_CHECKOUT.length - 1)],
     feutures: getRandomArray(FEATURES),
-    descriptio: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere libero a velit hendrerit mattis.`,
-    photos: getRandomArray[PHOTOS],
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere libero a velit hendrerit mattis.`,
+    photos: getRandomArray(PHOTOS),
     location: {
       x: getRandomElement(0, map.offsetWidth),
       y: getRandomElement(130, 650)
@@ -56,3 +57,30 @@ const createListing = () => ({
   }
 });
 
+const createListingArray = (listingNumber) => {
+  const listings = [];
+  for (let i = 0; i < listingNumber; i++) {
+    listings.push(createListing());
+  }
+  return listings;
+}
+
+const renderPin = (listing) => {
+  const pinElement = pinTemplate.cloneNode(true);
+  pinElement.style = `top: ${listing.offer.location.y + pinElement.offsetHeight / 2}px; left: ${listing.offer.location.x + pinElement.offsetWidth / 2}px`;
+  pinElement.querySelector(`img`).src = `${listing.author.avatar}`;
+  pinElement.querySelector(`img`).alt = `${listing.offer.title}`;
+  return pinElement;
+}
+
+const renderPins = (listings) => {
+  const fragment = document.createDocumentFragment();
+  listings.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
+  pins.appendChild(fragment);
+}
+
+const listings = createListingArray(LISTING_NUMBER);
+
+renderPins(listings);
+
+map.classList.remove(`map--faded`);
