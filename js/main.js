@@ -12,6 +12,9 @@ const ADVERT_NUMBER = 8;
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
+const advertForm = document.querySelector(`.ad-form`);
+const advertFormElements = document.querySelectorAll(`.ad-form__element`);
+const mapPinMain = document.querySelector(`.map__pin--main`);
 
 const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
@@ -62,6 +65,9 @@ const renderPins = (adverts) => {
 
 const adverts = generateAdverts(ADVERT_NUMBER);
 
+const disableElements = (elements) => Array.from(elements).forEach(element => element.setAttribute(`disabled`, `disabled`));
+disableElements(advertFormElements);
+
 renderPins(adverts);
 
-map.classList.remove(`map--faded`);
+
