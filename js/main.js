@@ -13,7 +13,9 @@ const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
-const advertFormElements = document.querySelectorAll(`.ad-form__element`);
+const advertFormElements = Array.from(document.querySelectorAll(`.ad-form__element`));
+const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
+const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
 
 const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
@@ -65,9 +67,34 @@ const renderPins = (adverts) => {
 
 const adverts = generateAdverts(ADVERT_NUMBER);
 
-const disableElements = (elements) => Array.from(elements).forEach(element => element.setAttribute(`disabled`, `disabled`));
-disableElements(advertFormElements);
+const changeElementsStatusTo = (status, elements) => {
+  elements.forEach(function(element) {
+    (status === `disabled`) ? element.setAttribute(status, status) : element.removeAttribute(`disabled`);
+  })
+}
 
+const activatePage = () => {
+  map.classList.remove(`map--faded`);
+  advertForm.classList.remove(`ad-form--disabled`);
+  changeElementsStatusTo(`enabled`, advertFormElements);
+  changeElementsStatusTo(`enabled`, mapFilters);
+  changeElementsStatusTo(`enabled`, mapCheckboxes);
+
+  mapPinMain.removeEventListener(`mousedown`, activatePage);
+}
+
+const deactivatePage = () => {
+  changeElementsStatusTo(`disabled`, advertFormElements);
+  changeElementsStatusTo(`disabled`, mapFilters);
+  changeElementsStatusTo(`disabled`, mapCheckboxes);
+}
+
+deactivatePage();
 renderPins(adverts);
+
+mapPinMain.addEventListener(`mousedown`, activatePage);
+
+
+
 
 
