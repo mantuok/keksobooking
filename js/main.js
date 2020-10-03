@@ -9,14 +9,19 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 const ADVERT_NUMBER = 8;
+const DEFAULT_PIN_LOCATION = {
+  x: 570 + 31,
+  y: 375 + 62 + 22
+}
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
-const advertFormElements = Array.from(document.querySelectorAll(`.ad-form__element`));
+const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element`));
 const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
 const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
+const addressInput = advertForm.querySelector(`[name='address']`)
 
 const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
@@ -76,6 +81,7 @@ const changeElementsStatusTo = (status, elements) => {
 const activatePage = () => {
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
+
   changeElementsStatusTo(`enabled`, advertFormElements);
   changeElementsStatusTo(`enabled`, mapFilters);
   changeElementsStatusTo(`enabled`, mapCheckboxes);
@@ -87,6 +93,8 @@ const deactivatePage = () => {
   changeElementsStatusTo(`disabled`, advertFormElements);
   changeElementsStatusTo(`disabled`, mapFilters);
   changeElementsStatusTo(`disabled`, mapCheckboxes);
+
+  addressInput.value = `${DEFAULT_PIN_LOCATION.x}, ${DEFAULT_PIN_LOCATION.y}`;
 }
 
 deactivatePage();
