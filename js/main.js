@@ -9,10 +9,10 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 const ADVERT_NUMBER = 8;
-const DEFAULT_PIN_LOCATION = {
-  x: 570 + 31,
-  y: 375 + 62 + 22
-}
+const PIN_SIZE = {
+  WIDTH: 62,
+  HEIGHT: 88
+};
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
@@ -78,6 +78,12 @@ const changeElementsStatusTo = (status, elements) => {
   })
 }
 
+const getAddress = () => {
+  const x = mapPinMain.offsetLeft + PIN_SIZE.WIDTH / 2
+  const y = mapPinMain.offsetTop + PIN_SIZE.HEIGHT
+  return `${x}, ${y}`;
+}
+
 const activatePage = () => {
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
@@ -94,7 +100,7 @@ const deactivatePage = () => {
   changeElementsStatusTo(`disabled`, mapFilters);
   changeElementsStatusTo(`disabled`, mapCheckboxes);
 
-  addressInput.value = `${DEFAULT_PIN_LOCATION.x}, ${DEFAULT_PIN_LOCATION.y}`;
+  addressInput.value = getAddress();
 }
 
 deactivatePage();
