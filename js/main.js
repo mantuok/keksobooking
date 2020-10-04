@@ -15,7 +15,9 @@ const PIN_SIZE = {
 };
 const Key = {
   ENTER: `Enter`,
-  MAIN_MOUSE_BUTTON: 0
+};
+const Mouse = {
+  MAIN_BUTTON: 0,
 };
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
@@ -80,9 +82,9 @@ const renderPins = (adverts) => {
 
 const adverts = generateAdverts(ADVERT_NUMBER);
 
-const changeElementsStatusTo = (status, elements) => {
+const setElementsEnabled = (elements, enabled) => {
   elements.forEach(function (element) {
-    return (status === `disabled`) ? element.setAttribute(status, status) : element.removeAttribute(`disabled`);
+    element.disabled = !enabled;
   });
 };
 
@@ -93,9 +95,9 @@ const getAddress = () => {
 };
 
 const deactivatePage = () => {
-  changeElementsStatusTo(`disabled`, advertFormElements);
-  changeElementsStatusTo(`disabled`, mapFilters);
-  changeElementsStatusTo(`disabled`, mapCheckboxes);
+  setElementsEnabled(advertFormElements, false);
+  setElementsEnabled(mapFilters, false);
+  setElementsEnabled(mapCheckboxes, false);
 
   addressInput.value = getAddress();
 };
@@ -104,22 +106,20 @@ const activatePage = () => {
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
 
-  changeElementsStatusTo(`enabled`, advertFormElements);
-  changeElementsStatusTo(`enabled`, mapFilters);
-  changeElementsStatusTo(`enabled`, mapCheckboxes);
+  setElementsEnabled(advertFormElements, true);
+  setElementsEnabled(mapFilters, true);
+  setElementsEnabled(mapCheckboxes, true);
 
   mapPinMain.removeEventListener(`mousedown`, activatePage);
 };
 
+const getGuestsLimit = (rooms) => rooms <= 3 ? Array.from({length: rooms}, (x, i) => i + 1) : [0];
+
 const checkGuests = (rooms, guests) => {
-  if (rooms === 1 && guests > 1) {
-    guestsSelect.setCustomValidity(`В 1-й комнате может разместиться не более 1-го гостя`);
-  } else if (rooms === 2 && guests > 2) {
-    guestsSelect.setCustomValidity(`В 2-х комнатах может разместиться не более 2-х гостей`);
-  } else if (rooms === 3 && guests > 3) {
-    guestsSelect.setCustomValidity(`В 3-х комнатах может разместиться не более 3-х гостей`);
-  } else if (rooms === 100 && guests !== 0) {
-    guestsSelect.setCustomValidity(`В 100 комнатах нельзя размещать гостей`);
+  if (getGuestsLimit(rooms).includes(0) && guests !== 0) {
+    guestsSelect.setCustomValidity(`Данное помещение не преднозначено для гостей`);
+  } else if (!getGuestsLimit(rooms).includes(guests)) {
+    guestsSelect.setCustomValidity(`Максимально возможное количество гостей в данном помещении: ${rooms}`);
   } else {
     guestsSelect.setCustomValidity(``);
   }
@@ -127,24 +127,24 @@ const checkGuests = (rooms, guests) => {
   guestsSelect.reportValidity();
 };
 
+const eventListenerRoomsGuests = (element) => {
+  element.addEventListener(`change`, function () {
+    const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
+    const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
+    checkGuests(rooms, guests);
+  });
+};
+
 mapPinMain.addEventListener(`mousedown`, function (evt) {
-  return evt.button === 0 && activatePage();
+  return evt.button === Mouse.MAIN_BUTTON && activatePage();
 });
 
 mapPinMain.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, activatePage));
 
-guestsSelect.addEventListener(`change`, function () {
-  const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
-  const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
-  checkGuests(rooms, guests);
-});
-
-roomsSelect.addEventListener(`change`, function () {
-  const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
-  const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
-  checkGuests(rooms, guests);
-});
-
 deactivatePage();
 
 renderPins(adverts);
+
+eventListenerRoomsGuests(guestsSelect);
+
+eventListenerRoomsGuests(roomsSelect);
