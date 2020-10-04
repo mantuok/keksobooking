@@ -13,6 +13,10 @@ const PIN_SIZE = {
   WIDTH: 62,
   HEIGHT: 88
 };
+const Key = {
+  ENTER: `Enter`,
+  MAIN_MOUSE_BUTTON: 0
+};
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
@@ -21,13 +25,17 @@ const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__ele
 const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
 const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
-const addressInput = advertForm.querySelector(`[name='address']`)
+const addressInput = advertForm.querySelector(`[name='address']`);
+const roomsSelect = advertForm.querySelector(`[name='rooms']`);
+const guestsSelect = advertForm.querySelector(`[name='capacity']`);
 
 const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 const getRandomFrom = (arr) => arr[getRandom(0, arr.length - 1)];
 
 const getRandomArray = (arr) => arr.slice(getRandom(0, arr.length / 2), getRandom(arr.length / 2 + 1, arr.length - 1));
+
+const invokeIfKeyIs = (key, cb) => (evt) => evt.key === key && cb(evt);
 
 const generateAdvert = () => {
   const location = {
@@ -73,16 +81,24 @@ const renderPins = (adverts) => {
 const adverts = generateAdverts(ADVERT_NUMBER);
 
 const changeElementsStatusTo = (status, elements) => {
-  elements.forEach(function(element) {
-    (status === `disabled`) ? element.setAttribute(status, status) : element.removeAttribute(`disabled`);
-  })
-}
+  elements.forEach(function (element) {
+    return (status === `disabled`) ? element.setAttribute(status, status) : element.removeAttribute(`disabled`);
+  });
+};
 
 const getAddress = () => {
-  const x = mapPinMain.offsetLeft + PIN_SIZE.WIDTH / 2
-  const y = mapPinMain.offsetTop + PIN_SIZE.HEIGHT
+  const x = mapPinMain.offsetLeft + PIN_SIZE.WIDTH / 2;
+  const y = mapPinMain.offsetTop + PIN_SIZE.HEIGHT;
   return `${x}, ${y}`;
-}
+};
+
+const deactivatePage = () => {
+  changeElementsStatusTo(`disabled`, advertFormElements);
+  changeElementsStatusTo(`disabled`, mapFilters);
+  changeElementsStatusTo(`disabled`, mapCheckboxes);
+
+  addressInput.value = getAddress();
+};
 
 const activatePage = () => {
   map.classList.remove(`map--faded`);
@@ -93,22 +109,42 @@ const activatePage = () => {
   changeElementsStatusTo(`enabled`, mapCheckboxes);
 
   mapPinMain.removeEventListener(`mousedown`, activatePage);
-}
+};
 
-const deactivatePage = () => {
-  changeElementsStatusTo(`disabled`, advertFormElements);
-  changeElementsStatusTo(`disabled`, mapFilters);
-  changeElementsStatusTo(`disabled`, mapCheckboxes);
+const checkGuests = (rooms, guests) => {
+  if (rooms === 1 && guests > 1) {
+    guestsSelect.setCustomValidity(`В 1-й комнате может разместиться не более 1-го гостя`);
+  } else if (rooms === 2 && guests > 2) {
+    guestsSelect.setCustomValidity(`В 2-х комнатах может разместиться не более 2-х гостей`);
+  } else if (rooms === 3 && guests > 3) {
+    guestsSelect.setCustomValidity(`В 3-х комнатах может разместиться не более 3-х гостей`);
+  } else if (rooms === 100 && guests !== 0) {
+    guestsSelect.setCustomValidity(`В 100 комнатах нельзя размещать гостей`);
+  } else {
+    guestsSelect.setCustomValidity(``);
+  }
 
-  addressInput.value = getAddress();
-}
+  guestsSelect.reportValidity();
+};
+
+mapPinMain.addEventListener(`mousedown`, function (evt) {
+  return evt.button === 0 && activatePage();
+});
+
+mapPinMain.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, activatePage));
+
+guestsSelect.addEventListener(`change`, function () {
+  const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
+  const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
+  checkGuests(rooms, guests);
+});
+
+roomsSelect.addEventListener(`change`, function () {
+  const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
+  const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
+  checkGuests(rooms, guests);
+});
 
 deactivatePage();
+
 renderPins(adverts);
-
-mapPinMain.addEventListener(`mousedown`, activatePage);
-
-
-
-
-
