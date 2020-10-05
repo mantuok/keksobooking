@@ -9,15 +9,35 @@ const PHOTOS = [
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 const ADVERT_NUMBER = 8;
+const PIN_SIZE = {
+  WIDTH: 62,
+  HEIGHT: 88
+};
+const Key = {
+  ENTER: `Enter`,
+};
+const Mouse = {
+  MAIN_BUTTON: 0,
+};
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
 const map = document.querySelector(`.map`);
+const advertForm = document.querySelector(`.ad-form`);
+const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element`));
+const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
+const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
+const mapPinMain = document.querySelector(`.map__pin--main`);
+const addressInput = advertForm.querySelector(`[name='address']`);
+const roomsSelect = advertForm.querySelector(`[name='rooms']`);
+const guestsSelect = advertForm.querySelector(`[name='capacity']`);
 
 const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 const getRandomFrom = (arr) => arr[getRandom(0, arr.length - 1)];
 
 const getRandomArray = (arr) => arr.slice(getRandom(0, arr.length / 2), getRandom(arr.length / 2 + 1, arr.length - 1));
+
+const invokeIfKeyIs = (key, cb) => (evt) => evt.key === key && cb(evt);
 
 const generateAdvert = () => {
   const location = {
@@ -62,6 +82,69 @@ const renderPins = (adverts) => {
 
 const adverts = generateAdverts(ADVERT_NUMBER);
 
+const setElementsEnabled = (elements, enabled) => {
+  elements.forEach(function (element) {
+    element.disabled = !enabled;
+  });
+};
+
+const getAddress = () => {
+  const x = mapPinMain.offsetLeft + PIN_SIZE.WIDTH / 2;
+  const y = mapPinMain.offsetTop + PIN_SIZE.HEIGHT;
+  return `${x}, ${y}`;
+};
+
+const deactivatePage = () => {
+  setElementsEnabled(advertFormElements, false);
+  setElementsEnabled(mapFilters, false);
+  setElementsEnabled(mapCheckboxes, false);
+
+  addressInput.value = getAddress();
+};
+
+const activatePage = () => {
+  map.classList.remove(`map--faded`);
+  advertForm.classList.remove(`ad-form--disabled`);
+
+  setElementsEnabled(advertFormElements, true);
+  setElementsEnabled(mapFilters, true);
+  setElementsEnabled(mapCheckboxes, true);
+
+  mapPinMain.removeEventListener(`mousedown`, activatePage);
+};
+
+const getGuestsLimit = (rooms) => rooms <= 3 ? Array.from({length: rooms}, (x, i) => i + 1) : [0];
+
+const checkGuests = (rooms, guests) => {
+  if (getGuestsLimit(rooms).includes(0) && guests !== 0) {
+    guestsSelect.setCustomValidity(`Данное помещение не преднозначено для гостей`);
+  } else if (!getGuestsLimit(rooms).includes(guests)) {
+    guestsSelect.setCustomValidity(`Максимально возможное количество гостей в данном помещении: ${rooms}`);
+  } else {
+    guestsSelect.setCustomValidity(``);
+  }
+
+  guestsSelect.reportValidity();
+};
+
+const eventListenerRoomsGuests = (element) => {
+  element.addEventListener(`change`, function () {
+    const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
+    const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
+    checkGuests(rooms, guests);
+  });
+};
+
+mapPinMain.addEventListener(`mousedown`, function (evt) {
+  return evt.button === Mouse.MAIN_BUTTON && activatePage();
+});
+
+mapPinMain.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, activatePage));
+
+deactivatePage();
+
 renderPins(adverts);
 
-map.classList.remove(`map--faded`);
+eventListenerRoomsGuests(guestsSelect);
+
+eventListenerRoomsGuests(roomsSelect);
