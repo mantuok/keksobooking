@@ -17,7 +17,7 @@ const Key = {
   ENTER: `Enter`,
 };
 const Mouse = {
-  MAIN_BUTTON: 0,
+  LEFT_BUTTON: 0,
 };
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pins = document.querySelector(`.map__pins`);
@@ -80,8 +80,6 @@ const renderPins = (adverts) => {
   pins.appendChild(fragment);
 };
 
-const adverts = generateAdverts(ADVERT_NUMBER);
-
 const setElementsEnabled = (elements, enabled) => {
   elements.forEach(function (element) {
     element.disabled = !enabled;
@@ -115,7 +113,7 @@ const activatePage = () => {
 
 const getGuestsLimit = (rooms) => rooms <= 3 ? Array.from({length: rooms}, (x, i) => i + 1) : [0];
 
-const checkGuests = (rooms, guests) => {
+const validateGuests = (rooms, guests) => {
   if (getGuestsLimit(rooms).includes(0) && guests !== 0) {
     guestsSelect.setCustomValidity(`Данное помещение не преднозначено для гостей`);
   } else if (!getGuestsLimit(rooms).includes(guests)) {
@@ -127,24 +125,23 @@ const checkGuests = (rooms, guests) => {
   guestsSelect.reportValidity();
 };
 
-const eventListenerRoomsGuests = (element) => {
-  element.addEventListener(`change`, function () {
-    const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
-    const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
-    checkGuests(rooms, guests);
-  });
+const onRoomsOrGuestsChange = () => {
+  const rooms = parseInt(roomsSelect.options[roomsSelect.selectedIndex].value, 10);
+  const guests = parseInt(guestsSelect.options[guestsSelect.selectedIndex].value, 10);
+  validateGuests(rooms, guests);
 };
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
-  return evt.button === Mouse.MAIN_BUTTON && activatePage();
+  return evt.button === Mouse.LEFT_BUTTON && activatePage();
 });
 
 mapPinMain.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, activatePage));
 
 deactivatePage();
 
+const adverts = generateAdverts(ADVERT_NUMBER);
+
 renderPins(adverts);
 
-eventListenerRoomsGuests(guestsSelect);
-
-eventListenerRoomsGuests(roomsSelect);
+guestsSelect.addEventListener(`change`, onRoomsOrGuestsChange);
+roomsSelect.addEventListener(`change`, onRoomsOrGuestsChange);
