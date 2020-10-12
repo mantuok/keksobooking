@@ -20,7 +20,8 @@
 
   window.pageMode.deactivate();
 
-  window.pinRender.render(window.advertGeneration.adverts);
+  // window.pinRender.render(window.advertGeneration.adverts);
+  window.backend.download(window.responseHandler.onDownloadSuccess, window.responseHandler.onDownloadError);
 
   guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 

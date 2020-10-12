@@ -6,17 +6,17 @@
     OK: 200
   };
   const Method = {
-    GET = `GET`
+    GET: `GET`
   };
   const Url = {
-    DOWNLOAD = `ttps://21.javascript.pages.academy/keksobooking/data`
+    DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`
   };
 
   const sendRequest = (onSuccess, onError, method, URL) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
     xhr.addEventListener (`load`, function () {
-      if (xhr.status = StatusCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         xhr.onError(`Произошла ошибка ` + xhr.status + xhr.statusText);
@@ -30,7 +30,7 @@
     });
     xhr.timeout = TIMEOUT_MS;
     xhr.open(method, URL);
-    xhr.send;
+    xhr.send();
   };
 
   const download = (onSuccess, onError) => sendRequest(onSuccess, onError, Method.GET, Url.DOWNLOAD);
