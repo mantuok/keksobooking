@@ -15,7 +15,7 @@
   const sendRequest = (onSuccess, onError, method, URL) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
-    xhr.addEventListener (`load`, function () {
+    xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
@@ -26,7 +26,7 @@
       onError(`Произошла ошибка соединения`);
     });
     xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + `мс`);
+      onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + ` мс`);
     });
     xhr.timeout = TIMEOUT_MS;
     xhr.open(method, URL);
@@ -37,5 +37,5 @@
 
   window.backend = {
     download
-  }
+  };
 })();

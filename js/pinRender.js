@@ -12,12 +12,6 @@
     return pinElement;
   };
 
-  // const renderPins = (adverts) => {
-  //   const fragment = document.createDocumentFragment();
-  //   adverts.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
-  //   pins.appendChild(fragment);
-  // };
-
   window.pinRender = {
     render: renderPin
   };
