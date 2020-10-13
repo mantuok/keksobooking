@@ -1,13 +1,7 @@
 'use strict';
 
 (function () {
-  const pins = document.querySelector(`.map__pins`);
 
-  const onDownloadSuccess = (adverts) => {
-    const fragment = document.createDocumentFragment();
-    adverts.map(window.pinRender.render).forEach((renderedPin) => fragment.appendChild(renderedPin));
-    pins.appendChild(fragment);
-  };
 
   const onDownloadError = (errorMessage) => {
     const node = document.createElement(`div`);
