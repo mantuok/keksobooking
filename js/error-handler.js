@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-
-
   const onDownloadError = (errorMessage) => {
     const node = document.createElement(`div`);
     node.style = `z-index: 10; display: flex; justify-content: center; align-items: center; width: 500px; height: 200px; padding: 30px 30px; text-align: center; color: #f5463c; background-color: #d4d4d4; border-radius: 5px; box-shadow: 0px 0px 6px grey`;
@@ -17,7 +15,6 @@
   };
 
   window.responseHandler = {
-    onDownloadSuccess,
     onDownloadError
   };
 })();
