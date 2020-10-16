@@ -6,7 +6,7 @@
     bungalow: `Бунгало`,
     house: `Дом`,
     palace: `Дворец`
-  }
+  };
   const ProprtyFeature = {
     wifi: `popup__feature--wifi`,
     dishwasher: `popup__feature--dishwasher`,
@@ -14,7 +14,7 @@
     washer: `popup__feature--washer`,
     elevator: `popup__feature--elevator`,
     conditioner: `popup__feature--conditioner`
-  }
+  };
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
@@ -31,7 +31,7 @@
       fragment.appendChild(photoElement);
     }
     cardElement.querySelector(`.popup__photos`).appendChild(fragment);
-  }
+  };
 
   const getPropertyFeatures = (advert, cardElement) => {
     const featureList = cardElement.querySelector(`.popup__features`);
@@ -39,11 +39,11 @@
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < features.length; i++) {
       const featureElement = document.createElement(`li`);
-      featureElement.classList.add(`popup__feature`,`${ProprtyFeature[features[i]]}`);
+      featureElement.classList.add(`popup__feature`, `${ProprtyFeature[features[i]]}`);
       fragment.appendChild(featureElement);
     }
     featureList.appendChild(fragment);
-  }
+  };
 
   const renderData = (element, block, type, value) => {
     if (value !== undefined) {
@@ -51,7 +51,7 @@
     } else {
       element.querySelector(block).style.display = `none`;
     }
-  }
+  };
 
   const renderPin = (advert) => {
     const pinElement = pinTemplate.cloneNode(true);
@@ -65,8 +65,8 @@
     const cardElement = cardTemplate.cloneNode(true);
     Array.from(cardElement.querySelectorAll(`.popup__feature`)).forEach((element) => element.remove());
     cardElement.querySelector(`.popup__photo`).remove();
-    renderData(cardElement, `.popup__avatar`, `src`, `${advert.author.avatar}` );
-    renderData(cardElement, `.popup__title`, `textContent`, `${advert.offer.title}`)
+    renderData(cardElement, `.popup__avatar`, `src`, `${advert.author.avatar}`);
+    renderData(cardElement, `.popup__title`, `textContent`, `${advert.offer.title}`);
     renderData(cardElement, `.popup__text--address`, `textContent`, `${advert.offer.address}`);
     renderData(cardElement, `.popup__text--price`, `textContent`, `${advert.offer.price} руб./ночь`);
     renderData(cardElement, `.popup__type`, `textContent`, `${PropertyType[advert.offer.type]}`);
@@ -82,7 +82,7 @@
     const fragment = document.createDocumentFragment();
     arr.map(renderElement).forEach((renderedElement) => fragment.appendChild(renderedElement));
     elements.appendChild(fragment);
-  }
+  };
 
   window.elementsRender = {
     pin: renderPin,

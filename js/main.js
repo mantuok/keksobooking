@@ -13,11 +13,12 @@
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const pins = document.querySelector(`.map__pins`);
   const map = document.querySelector(`.map`);
+  const mapFilter = document.querySelector(`.map__filters-container`);
 
   const onDownloadSuccess = (adverts) => {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(window.elementsRender.card(adverts[0]));
-    map.appendChild(fragment);
+    map.insertBefore(fragment, mapFilter);
     window.elementsRender.allElements(adverts, window.elementsRender.pin, pins);
   };
 
