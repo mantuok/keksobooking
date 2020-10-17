@@ -12,11 +12,14 @@
   const roomsSelect = advertForm.querySelector(`[name='rooms']`);
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const pins = document.querySelector(`.map__pins`);
+  const map = document.querySelector(`.map`);
+  const mapFilter = document.querySelector(`.map__filters-container`);
 
   const onDownloadSuccess = (adverts) => {
     const fragment = document.createDocumentFragment();
-    adverts.map(window.pinRender.render).forEach((renderedPin) => fragment.appendChild(renderedPin));
-    pins.appendChild(fragment);
+    fragment.appendChild(window.elementsRender.card(adverts[0]));
+    map.insertBefore(fragment, mapFilter);
+    window.elementsRender.allElements(adverts, window.elementsRender.pin, pins);
   };
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
