@@ -3,6 +3,7 @@
 (function () {
   const Key = {
     ENTER: `Enter`,
+    ESC: `Escape`
   };
   const Mouse = {
     LEFT_BUTTON: 0,
@@ -12,14 +13,11 @@
   const roomsSelect = advertForm.querySelector(`[name='rooms']`);
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const pins = document.querySelector(`.map__pins`);
-  const map = document.querySelector(`.map`);
-  const mapFilter = document.querySelector(`.map__filters-container`);
+  const card = document.querySelector(`.map__card`);
 
   const onDownloadSuccess = (adverts) => {
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(window.elementsRender.card(adverts[0]));
-    map.insertBefore(fragment, mapFilter);
-    window.elementsRender.allElements(adverts, window.elementsRender.pin, pins);
+    window.elementsRender.allPins(adverts);
+    window.advertsList = adverts;
   };
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
@@ -32,7 +30,26 @@
 
   window.backend.download(onDownloadSuccess, window.responseHandler.onDownloadError);
 
+  pins.addEventListener(`click`, function(evt){
+    evt.preventDefault();
+    window.cardPopup.close();
+    window.cardPopup.open(evt.target.alt);
+  });
+
+  pins.addEventListener(`keydown`, function(evt){
+    if (evt.key === Key.ENTER) {
+      evt.preventDefault();
+      window.cardPopup.close();
+      window.cardPopup.open(evt.target.querySelector(`img`).alt);
+    }
+  }, true);
+
   guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
   roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 })();
+
+    // window.utils.invokeIfKeyIs(Key.ENTER, function(){
+    //   console.log(evt.target.querySelector(`img`).alt);
+    //   return window.cardPopup.open(evt.target.querySelector(`img`).alt)
+    // });
