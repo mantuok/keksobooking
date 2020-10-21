@@ -89,13 +89,13 @@
 
   const renderSelectedCard = (adverts, selectedCard) => {
     const fragment = document.createDocumentFragment();
-    adverts.forEach(advert => {
+    adverts.forEach((advert) => {
       if (selectedCard === advert.offer.title) {
         fragment.appendChild(renderCard(advert));
       }
-    })
+    });
     map.insertBefore(fragment, mapFilter);
-  }
+  };
 
   window.elementsRender = {
     pin: renderPin,

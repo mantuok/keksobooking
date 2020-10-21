@@ -1,10 +1,54 @@
 'use strict';
 
 (function () {
+  const Title = {
+    MIN: 30,
+    MAX: 100
+  };
+  const Message = {
+    TITLE_MIN: `Значение меньше минимума символов на `,
+    TITLE_MAX: `Превышение максимума символов на `,
+    PRICE_MIN: `Цена меньше минимума на `,
+    PRICE_MAX: `Цена превышает максимум на `
+  };
+  const MinPrice = {
+    BUNGALOW: `0`,
+    FLAT: `1 000`,
+    HOUSE: `5 000`,
+    PALACE: `10 000`,
+  };
+  const MAXPRICE = 1000000;
   const advertForm = document.querySelector(`.ad-form`);
   const roomsSelect = advertForm.querySelector(`[name='rooms']`);
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
+  const titleInput = advertForm.querySelector(`[name='title']`);
+  const typeSelect = advertForm.querySelector(`[name='type']`);
+  const priceInput = advertForm.querySelector(`[name='price']`);
 
+  const checkLimit = (input, value, min, max, messageMin, massageMax) => {
+    if (value < min) {
+      input.setCustomValidity(messageMin + (min - value));
+    } else if (value > max) {
+      input.setCustomValidity(massageMax + (value - max));
+    } else {
+      input.setCustomValidity(``);
+    }
+    input.reportValidity();
+  };
+
+  const onTitleEnter = () => checkLimit(titleInput, titleInput.value.length, Title.MIN, Title.MAX, Message.TITLE_MIN, Message.TITLE_MAX);
+
+  const getMinPrice = () => parseInt(MinPrice[typeSelect.value.toUpperCase()].replace(` `, ``), 10);
+
+  const onPriceEnter = () => checkLimit(priceInput, priceInput.value, getMinPrice(), MAXPRICE, Message.PRICE_MIN, Message.PRICE_MAX);
+
+  const onTypeChange = () => {
+    priceInput.placeholder = MinPrice[typeSelect.value.toUpperCase()];
+  };
+
+  const onCheckInOutChange = (timeSelected, timeToChange) => {
+    timeToChange.value = timeSelected.value;
+  };
 
   const getGuestsLimit = (rooms) => rooms <= 3 ? Array.from({length: rooms}, (x, i) => i + 1) : [0];
 
@@ -16,7 +60,6 @@
     } else {
       guestsSelect.setCustomValidity(``);
     }
-
     guestsSelect.reportValidity();
   };
 
@@ -27,6 +70,11 @@
   };
 
   window.formValidation = {
+    onTitleEnter,
+    onTypeChange,
+    onPriceEnter,
+    getMinPrice,
+    onCheckInOutChange,
     onRoomsOrGuestsChange
   };
 })();
