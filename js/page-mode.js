@@ -1,17 +1,12 @@
 'use strict';
 
 (function () {
-  const PIN_SIZE = {
-    WIDTH: 62,
-    HEIGHT: 88
-  };
   const map = document.querySelector(`.map`);
   const advertForm = document.querySelector(`.ad-form`);
   const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element`));
   const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
   const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
   const mapPinMain = document.querySelector(`.map__pin--main`);
-  const addressInput = advertForm.querySelector(`[name='address']`);
 
   const setElementsEnabled = (elements, enabled) => {
     elements.forEach(function (element) {
@@ -19,18 +14,12 @@
     });
   };
 
-  const getAddress = () => {
-    const x = mapPinMain.offsetLeft + PIN_SIZE.WIDTH / 2;
-    const y = mapPinMain.offsetTop + PIN_SIZE.HEIGHT;
-    return `${x}, ${y}`;
-  };
-
   const deactivatePage = () => {
     setElementsEnabled(advertFormElements, false);
     setElementsEnabled(mapFilters, false);
     setElementsEnabled(mapCheckboxes, false);
 
-    addressInput.value = getAddress();
+    window.pinMove.setAddress();
   };
 
   const activatePage = () => {
