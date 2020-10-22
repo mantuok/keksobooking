@@ -3,23 +3,26 @@
 (function () {
   const Key = {
     ENTER: `Enter`,
+    ESC: `Escape`
   };
   const Mouse = {
     LEFT_BUTTON: 0,
   };
   const advertForm = document.querySelector(`.ad-form`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
+  const titleInput = advertForm.querySelector(`[name='title']`);
+  const typeSelect = advertForm.querySelector(`[name='type']`);
+  const priceInput = advertForm.querySelector(`[name='price']`);
   const roomsSelect = advertForm.querySelector(`[name='rooms']`);
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
+  const checkInSelect = advertForm.querySelector(`[name='timein']`);
+  const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
+
   const pins = document.querySelector(`.map__pins`);
-  const map = document.querySelector(`.map`);
-  const mapFilter = document.querySelector(`.map__filters-container`);
 
   const onDownloadSuccess = (adverts) => {
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(window.elementsRender.card(adverts[0]));
-    map.insertBefore(fragment, mapFilter);
-    window.elementsRender.allElements(adverts, window.elementsRender.pin, pins);
+    window.elementsRender.allPins(adverts);
+    window.advertsList = adverts;
   };
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
@@ -31,6 +34,39 @@
   window.pageMode.deactivate();
 
   window.backend.download(onDownloadSuccess, window.responseHandler.onDownloadError);
+
+  pins.addEventListener(`click`, function (evt) {
+    const target = evt.target;
+    const targetParent = target.parentNode;
+    if (targetParent.classList.contains(`map__pin`) && !targetParent.classList.contains(`map__pin--main`)) {
+      evt.preventDefault();
+      window.cardPopup.close();
+      window.cardPopup.open(target.alt);
+    }
+  });
+
+  pins.addEventListener(`keydown`, function (evt) {
+    const target = evt.target;
+    if (evt.key === Key.ENTER && !target.classList.contains(`map__pin--main`)) {
+      evt.preventDefault();
+      window.cardPopup.close();
+      window.cardPopup.open(target.querySelector(`img`).alt);
+    }
+  }, true);
+
+  titleInput.addEventListener(`input`, window.formValidation.onTitleEnter);
+
+  typeSelect.addEventListener(`change`, window.formValidation.onTypeChange);
+
+  priceInput.addEventListener(`input`, window.formValidation.onPriceEnter);
+
+  checkInSelect.addEventListener(`change`, function () {
+    return window.formValidation.onCheckInOutChange(checkInSelect, checkOutSelect);
+  });
+
+  checkOutSelect.addEventListener(`change`, function () {
+    return window.formValidation.onCheckInOutChange(checkOutSelect, checkInSelect);
+  });
 
   guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 

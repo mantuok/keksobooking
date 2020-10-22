@@ -17,6 +17,9 @@
   };
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+  const map = document.querySelector(`.map`);
+  const mapFilter = document.querySelector(`.map__filters-container`);
+  const pins = document.querySelector(`.map__pins`);
 
   const getPropertyPhotos = (advert, cardElement) => {
     const photos = Array.from(advert.offer.photos);
@@ -78,15 +81,26 @@
     return cardElement;
   };
 
-  const renderAllElements = (arr, renderElement, elements) => {
+  const renderAllPins = (adverts) => {
     const fragment = document.createDocumentFragment();
-    arr.map(renderElement).forEach((renderedElement) => fragment.appendChild(renderedElement));
-    elements.appendChild(fragment);
+    adverts.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
+    pins.appendChild(fragment);
+  };
+
+  const renderSelectedCard = (adverts, selectedCard) => {
+    const fragment = document.createDocumentFragment();
+    adverts.forEach((advert) => {
+      if (selectedCard === advert.offer.title) {
+        fragment.appendChild(renderCard(advert));
+      }
+    });
+    map.insertBefore(fragment, mapFilter);
   };
 
   window.elementsRender = {
     pin: renderPin,
     card: renderCard,
-    allElements: renderAllElements
+    allPins: renderAllPins,
+    selectedCard: renderSelectedCard
   };
 })();
