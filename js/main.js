@@ -35,7 +35,7 @@
 
   window.backend.download(onDownloadSuccess, window.responseHandler.onDownloadError);
 
-  document.addEventListener(`mousedown`, function (evt) {
+  mapPinMain.addEventListener(`mousedown`, function (evt) {
     return window.pinMove.move(evt);
   })
 
