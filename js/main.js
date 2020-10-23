@@ -37,7 +37,7 @@
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     return window.pinMove.move(evt);
-  })
+  });
 
   pins.addEventListener(`click`, function (evt) {
     const target = evt.target;
