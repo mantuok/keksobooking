@@ -6,13 +6,16 @@
     OK: 200
   };
   const Method = {
-    GET: `GET`
+    GET: `GET`,
+    POST: `POST`
   };
   const Url = {
-    DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`
+    DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`,
+    UPLOAD: `https://21.javascript.pages.academy/keksobooking`
   };
+  const advertForm = document.querySelector(`.ad-form`);
 
-  const sendRequest = (onSuccess, onError, method, URL) => {
+  const sendRequest = (onSuccess, onError, method, URL, data) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
     xhr.addEventListener(`load`, function () {
@@ -30,12 +33,16 @@
     });
     xhr.timeout = TIMEOUT_MS;
     xhr.open(method, URL);
-    xhr.send();
+    xhr.send(data);
+    console.log(data);
   };
 
   const download = (onSuccess, onError) => sendRequest(onSuccess, onError, Method.GET, Url.DOWNLOAD);
+  // const advertData = new FormData(advertForm);
+  const upload = (onSuccess, onError, advertData) => sendRequest(onSuccess, onError, Method.POST, Url.UPLOAD, advertData)
 
   window.backend = {
-    download
+    download,
+    upload
   };
 })();
