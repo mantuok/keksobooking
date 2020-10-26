@@ -17,15 +17,28 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  const onUpload = () => {
+  const showMessage = () => {
     const fragment = document.createDocumentFragment();
     const uploadSuccessMessage = uploadSuccessMessageTemplate.cloneNode(true);
     fragment.appendChild(uploadSuccessMessage);
     advertForm.appendChild(fragment);
+    document.addEventListener(`click`, closeMessage);
   }
+
+  const closeMessage = () => {
+    document.querySelector(`.success`).remove();
+    window.pageMode.deactivate();
+    document.removeEventListener(`click`, closeMessage);
+  }
+
+  // const onUpload = () => {
+  //   advertForm.reset();
+  //   showMessage();
+  // }
 
   window.messageHandler = {
     onError,
-    onUpload
+    show: showMessage,
+    close: closeMessage
   };
 })();

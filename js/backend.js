@@ -34,7 +34,6 @@
     xhr.timeout = TIMEOUT_MS;
     xhr.open(method, URL);
     xhr.send(data);
-    console.log(data);
   };
 
   const download = (onSuccess, onError) => sendRequest(onSuccess, onError, Method.GET, Url.DOWNLOAD);

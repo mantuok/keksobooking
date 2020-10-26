@@ -77,14 +77,14 @@
 
   roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
-  // submitButton.addEventListener(`click`, function(evt) {
-  //   evt.preventDefault();
-  //   window.backend.upload(window.messageHandler.onUpload, window.messageHandler.onError);
-  // })
+  const onUpload = () => {
+    advertForm.reset();
+    window.messageHandler.show();
+  }
 
   advertForm.addEventListener(`submit`, function (evt) {
     const advertData = new FormData(advertForm)
-    window.backend.upload(window.messageHandler.onUpload, window.messageHandler.onError, advertData);
+    window.backend.upload(onUpload, window.messageHandler.onError, advertData);
     evt.preventDefault();
   })
 })();

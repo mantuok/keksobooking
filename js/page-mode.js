@@ -18,6 +18,8 @@
     setElementsEnabled(advertFormElements, false);
     setElementsEnabled(mapFilters, false);
     setElementsEnabled(mapCheckboxes, false);
+    map.classList.add(`map--faded`);
+    advertForm.classList.add(`ad-form--disabled`);
 
     window.pinMove.setAddress();
   };
