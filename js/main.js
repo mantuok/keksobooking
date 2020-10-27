@@ -17,7 +17,6 @@
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const checkInSelect = advertForm.querySelector(`[name='timein']`);
   const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
-  const submitButton = advertForm.querySelector(`.ad-form__submit`);
 
   const pins = document.querySelector(`.map__pins`);
 
@@ -81,15 +80,15 @@
     advertForm.reset();
     window.messageHandler.show(`success`);
     window.pageMode.deactivate();
-  }
+  };
 
   const onFailedUpload = () => {
     window.messageHandler.show(`error`);
-  }
+  };
 
   advertForm.addEventListener(`submit`, function (evt) {
-    const advertData = new FormData(advertForm)
+    const advertData = new FormData(advertForm);
     window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
     evt.preventDefault();
-  })
+  });
 })();

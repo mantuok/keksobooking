@@ -36,7 +36,7 @@
   };
 
   const download = (onSuccess, onError) => sendRequest(onSuccess, onError, Method.GET, Url.DOWNLOAD);
-  const upload = (onSuccess, onError, advertData) => sendRequest(onSuccess, onError, Method.POST, Url.UPLOAD, advertData)
+  const upload = (onSuccess, onError, advertData) => sendRequest(onSuccess, onError, Method.POST, Url.UPLOAD, advertData);
 
   window.backend = {
     download,
