@@ -17,6 +17,7 @@
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const checkInSelect = advertForm.querySelector(`[name='timein']`);
   const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
+  const resetButton = advertForm.querySelector(`.ad-form__reset`);
 
   const pins = document.querySelector(`.map__pins`);
 
@@ -90,5 +91,9 @@
     const advertData = new FormData(advertForm);
     window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
     evt.preventDefault();
+  });
+
+  resetButton.addEventListener(`click`, function () {
+    advertForm.reset();
   });
 })();
