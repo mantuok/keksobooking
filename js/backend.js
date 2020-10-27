@@ -13,7 +13,6 @@
     DOWNLOAD: `https://21.javascript.pages.academy/keksobooking/data`,
     UPLOAD: `https://21.javascript.pages.academy/keksobooking`
   };
-  const advertForm = document.querySelector(`.ad-form`);
 
   const sendRequest = (onSuccess, onError, method, URL, data) => {
     const xhr = new XMLHttpRequest();
@@ -22,7 +21,7 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        xhr.onError(`Произошла ошибка ` + xhr.status + xhr.statusText);
+        onError(`Произошла ошибка ` + xhr.status + xhr.statusText);
       }
     });
     xhr.addEventListener(`error`, function () {
@@ -37,7 +36,6 @@
   };
 
   const download = (onSuccess, onError) => sendRequest(onSuccess, onError, Method.GET, Url.DOWNLOAD);
-  // const advertData = new FormData(advertForm);
   const upload = (onSuccess, onError, advertData) => sendRequest(onSuccess, onError, Method.POST, Url.UPLOAD, advertData)
 
   window.backend = {

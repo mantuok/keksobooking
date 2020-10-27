@@ -34,7 +34,7 @@
 
   window.pageMode.deactivate();
 
-  window.backend.download(onDownloadSuccess, window.messageHandler.onError);
+  window.backend.download(onDownloadSuccess, window.messageHandler.onDownloadError);
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     return window.pinMove.move(evt);
@@ -77,14 +77,19 @@
 
   roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
-  const onUpload = () => {
+  const onSuccesUpload = () => {
     advertForm.reset();
-    window.messageHandler.show();
+    window.messageHandler.show(`success`);
+    window.pageMode.deactivate();
+  }
+
+  const onFailedUpload = () => {
+    window.messageHandler.show(`error`);
   }
 
   advertForm.addEventListener(`submit`, function (evt) {
     const advertData = new FormData(advertForm)
-    window.backend.upload(onUpload, window.messageHandler.onError, advertData);
+    window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
     evt.preventDefault();
   })
 })();
