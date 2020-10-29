@@ -104,7 +104,7 @@
   const renderFilteredAPins = (filteredAdverts) => {
     window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
     renderAllPins(filteredAdverts);
-  }
+  };
 
   window.elementsRender = {
     pin: renderPin,
