@@ -18,6 +18,7 @@
   const checkInSelect = advertForm.querySelector(`[name='timein']`);
   const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
   const resetButton = advertForm.querySelector(`.ad-form__reset`);
+  const filterByType = document.querySelector(`[name='housing-type']`);
 
   const pins = document.querySelector(`.map__pins`);
 
@@ -96,4 +97,11 @@
   resetButton.addEventListener(`click`, function () {
     advertForm.reset();
   });
+
+  filterByType.addEventListener(`change`, function (evt) {
+    evt.preventDefault();
+    const selectedType = filterByType.value;
+    const filteredAdverts = window.filterAdverts.byType(selectedType);
+    window.elementsRender.filteredPins(filteredAdverts);
+  })
 })();

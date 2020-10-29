@@ -13,6 +13,7 @@
     return arr;
   };
   const getTruncatedArray = (arr, limit) => shuffleArray(arr).slice(0, limit);
+  const removeArray = (arr) => arr.forEach((element) => element.remove());
 
   window.utils = {
     getRandom,
@@ -20,6 +21,7 @@
     getRandomArray,
     invokeIfKeyIs,
     shuffleArray,
-    getTruncatedArray
+    getTruncatedArray,
+    removeArray
   };
 })();

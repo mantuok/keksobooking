@@ -36,11 +36,14 @@
     input.reportValidity();
   };
 
-  const onTitleEnter = () => checkLimit(titleInput, titleInput.value.length, Title.MIN, Title.MAX, Message.TITLE_MIN, Message.TITLE_MAX);
+  const onTitleEnter = () =>
+    checkLimit(titleInput, titleInput.value.length, Title.MIN, Title.MAX, Message.TITLE_MIN, Message.TITLE_MAX);
 
-  const getMinPrice = () => parseInt(MinPrice[typeSelect.value.toUpperCase()].replace(` `, ``), 10);
+  const getMinPrice = () =>
+    parseInt(MinPrice[typeSelect.value.toUpperCase()].replace(` `, ``), 10);
 
-  const onPriceEnter = () => checkLimit(priceInput, priceInput.value, getMinPrice(), MAXPRICE, Message.PRICE_MIN, Message.PRICE_MAX);
+  const onPriceEnter = () =>
+    checkLimit(priceInput, priceInput.value, getMinPrice(), MAXPRICE, Message.PRICE_MIN, Message.PRICE_MAX);
 
   const onTypeChange = () => {
     priceInput.placeholder = MinPrice[typeSelect.value.toUpperCase()];
