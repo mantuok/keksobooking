@@ -17,6 +17,7 @@
   const guestsSelect = advertForm.querySelector(`[name='capacity']`);
   const checkInSelect = advertForm.querySelector(`[name='timein']`);
   const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
+  const resetButton = advertForm.querySelector(`.ad-form__reset`);
 
   const pins = document.querySelector(`.map__pins`);
 
@@ -33,7 +34,7 @@
 
   window.pageMode.deactivate();
 
-  window.backend.download(onDownloadSuccess, window.responseHandler.onDownloadError);
+  window.backend.download(onDownloadSuccess, window.messageHandler.onDownloadError);
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     return window.pinMove.move(evt);
@@ -75,4 +76,24 @@
   guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
   roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
+
+  const onSuccesUpload = () => {
+    advertForm.reset();
+    window.messageHandler.show(`success`);
+    window.pageMode.deactivate();
+  };
+
+  const onFailedUpload = () => {
+    window.messageHandler.show(`error`);
+  };
+
+  advertForm.addEventListener(`submit`, function (evt) {
+    const advertData = new FormData(advertForm);
+    window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
+    evt.preventDefault();
+  });
+
+  resetButton.addEventListener(`click`, function () {
+    advertForm.reset();
+  });
 })();
