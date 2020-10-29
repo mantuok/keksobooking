@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const PIN_NUMBER = 5;
   const PropertyType = {
     flat: `Квартира`,
     bungalow: `Бунгало`,
@@ -83,7 +84,10 @@
 
   const renderAllPins = (adverts) => {
     const fragment = document.createDocumentFragment();
-    adverts.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
+    window.utils.getTruncatedArray(adverts, PIN_NUMBER)
+      .map(renderPin)
+      .forEach((renderedPin) =>
+        fragment.appendChild(renderedPin));
     pins.appendChild(fragment);
   };
 
