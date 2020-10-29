@@ -27,8 +27,11 @@
     map.classList.remove(`map--faded`);
     advertForm.classList.remove(`ad-form--disabled`);
 
+    if (document.querySelector(`.map__pin:not(.map__pin--main)`)) {
+      setElementsEnabled(mapFilters, true);
+    }
+
     setElementsEnabled(advertFormElements, true);
-    setElementsEnabled(mapFilters, true);
     setElementsEnabled(mapCheckboxes, true);
 
     mapPinMain.removeEventListener(`mousedown`, activatePage);
