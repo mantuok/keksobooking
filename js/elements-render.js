@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const PIN_NUMBER = 5;
   const PropertyType = {
     flat: `Квартира`,
     bungalow: `Бунгало`,
@@ -66,7 +67,7 @@
 
   const renderCard = (advert) => {
     const cardElement = cardTemplate.cloneNode(true);
-    Array.from(cardElement.querySelectorAll(`.popup__feature`)).forEach((element) => element.remove());
+    window.utils.removeArray(Array.from(cardElement.querySelectorAll(`.popup__feature`)));
     cardElement.querySelector(`.popup__photo`).remove();
     renderData(cardElement, `.popup__avatar`, `src`, `${advert.author.avatar}`);
     renderData(cardElement, `.popup__title`, `textContent`, `${advert.offer.title}`);
@@ -83,7 +84,10 @@
 
   const renderAllPins = (adverts) => {
     const fragment = document.createDocumentFragment();
-    adverts.map(renderPin).forEach((renderedPin) => fragment.appendChild(renderedPin));
+    window.utils.getTruncatedArray(adverts, PIN_NUMBER)
+      .map(renderPin)
+      .forEach((renderedPin) =>
+        fragment.appendChild(renderedPin));
     pins.appendChild(fragment);
   };
 
@@ -97,10 +101,16 @@
     map.insertBefore(fragment, mapFilter);
   };
 
+  const renderFilteredAPins = (filteredAdverts) => {
+    window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
+    renderAllPins(filteredAdverts);
+  };
+
   window.elementsRender = {
     pin: renderPin,
     card: renderCard,
     allPins: renderAllPins,
-    selectedCard: renderSelectedCard
+    selectedCard: renderSelectedCard,
+    filteredPins: renderFilteredAPins
   };
 })();
