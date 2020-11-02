@@ -24,6 +24,7 @@
   const onDownloadSuccess = (adverts) => {
     window.elementsRender.allPins(adverts);
     window.advertsList = adverts;
+    console.log(adverts);
   };
 
   const onSuccesUpload = () => {
@@ -99,6 +100,7 @@
 
   filterByType.addEventListener(`change`, function (evt) {
     evt.preventDefault();
+    // console.log(filterByType.value)
     if (document.querySelector(`.map__card`)) {
       window.cardPopup.close();
     }
