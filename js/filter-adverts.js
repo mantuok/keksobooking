@@ -16,33 +16,60 @@
     || (selectedPrice === `high` && advert.offer.price > Price.HIGH);
   };
 
-  const checkFeatures = (advert, feature) => {
-    console.log(feature);
-    return Array.from(advert.offer.features).includes(feature);
+  const checkFeatures = (advert, selectedFeatures) => {
+    let featuresApplicable = true;
+    const advertFeatures = Array.from(advert.offer.features);
+    selectedFeatures.forEach((feature) => {
+      if (!advertFeatures.includes(feature)) {
+        featuresApplicable = false;
+      }
+    });
+    return featuresApplicable;
   };
 
 
-  const getFilterRank = (advert) => {
+  // const getFilterRank = (advert) => {
+  //   const selectedPrice = price.value;
+  //   const selectedType = type.value;
+  //   const selectedRoomNumber = parseInt(roomNumber.value, 10);
+  //   const selectedGuestNumber = parseInt(guestNumber.value, 10);
+  //   const selectedFeatures = Array.from(document.querySelectorAll(`[name='features']:checked`));
+
+  //   let rank = 0;
+
+  //   if (advert.offer.type === selectedType || type.value === `any`) {
+  //     rank++;
+  //   }
+  //   if (advert.offer.rooms === selectedRoomNumber || roomNumber.value === `any`) {
+  //     rank++;
+  //   }
+  //   if (advert.offer.guests === selectedGuestNumber || guestNumber.value === `any`) {
+  //     rank++;
+  //   }
+  //   if (checkPrice(advert, selectedPrice) || price.value === `any`) {
+  //     rank++;
+  //   }
+  //   for (let i = 0; i < selectedFeatures.length; i++) {
+  //     checkFeatures(advert, selectedFeatures[i].value) && rank++;
+  //   };
+
+  //   console.log(rank);
+  //   // return rank;
+  // }
+
+  const isApplicable = (advert) => {
     const selectedPrice = price.value;
     const selectedType = type.value;
     const selectedRoomNumber = parseInt(roomNumber.value, 10);
     const selectedGuestNumber = parseInt(guestNumber.value, 10);
     const selectedFeatures = Array.from(document.querySelectorAll(`[name='features']:checked`));
 
-    let rank = 0;
-
-    advert.offer.type === selectedType && rank++;
-    advert.offer.rooms === selectedRoomNumber && rank++;
-    advert.offer.guests === selectedGuestNumber && rank++;
-
-    checkPrice(advert, selectedPrice) && rank++;
-
-    for (let i = 0; i < selectedFeatures.length; i++) {
-      checkFeatures(advert, selectedFeatures[i].value) && rank++;
-    };
-
-    console.log(rank);
-    // return rank;
+    (advert.offer.type === selectedType || type.value === `any`) &&
+    (advert.offer.rooms === selectedRoomNumber || roomNumber.value === `any`) &&
+    (advert.offer.guests === selectedGuestNumber || guestNumber.value === `any`) &&
+    (checkPrice(advert, selectedPrice) || price.value === `any`) &&
+    (checkFeatures(advert, selectedFeatures))
+    // (selectedFeatures.forEach((feature) => checkFeature(advert, feature)));
   }
 
   const getFilterByPropertyType = (selectedType) => {
@@ -52,7 +79,7 @@
       filteredArray = window.advertsList;
     } else {
       window.advertsList.forEach((advert) => advert.offer.type === selectedType && filteredArray.push(advert));
-      getFilterRank(window.advertsList[0], selectedType);
+      // getFilterRank(window.advertsList[0], selectedType);
     }
     return filteredArray;
   };
