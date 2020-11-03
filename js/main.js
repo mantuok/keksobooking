@@ -40,13 +40,23 @@
     window.messageHandler.show(`error`);
   };
 
-  const filterList = () => {
-    if (document.querySelector(`.map__card`)) {
-      window.cardPopup.close();
-    }
-    const filteredAdverts = window.filterAdverts.list();
-    window.elementsRender.filteredPins(filteredAdverts);
-  }
+  const filterList = window.debounce(function () {
+      if (document.querySelector(`.map__card`)) {
+        window.cardPopup.close();
+      }
+      const filteredAdverts = window.filterAdverts.list();
+      window.elementsRender.filteredPins(filteredAdverts);
+  });
+
+
+
+  // const filterList = () => {
+  //   if (document.querySelector(`.map__card`)) {
+  //     window.cardPopup.close();
+  //   }
+  //   const filteredAdverts = window.filterAdverts.list();
+  //   window.elementsRender.filteredPins(filteredAdverts);
+  // }
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     return evt.button === Mouse.LEFT_BUTTON && window.pageMode.activate();
