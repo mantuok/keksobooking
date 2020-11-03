@@ -4,7 +4,7 @@
   const Price = {
     LOW: 10000,
     HIGH: 50000
-  }
+  };
   const type = document.querySelector(`[name='housing-type']`);
   const price = document.querySelector(`[name='housing-price']`);
   const roomNumber = document.querySelector(`[name='housing-rooms']`);
@@ -20,12 +20,10 @@
     let featuresApplicable = true;
     const advertFeatures = Array.from(advert.offer.features);
     selectedFeatures.forEach((feature) => {
-      console.log(feature.value);
       if (!advertFeatures.includes(feature.value)) {
         featuresApplicable = false;
       }
     });
-    console.log(featuresApplicable);
     return featuresApplicable;
   };
 
@@ -39,11 +37,11 @@
     return (advert.offer.type === selectedType || type.value === `any`) &&
     (advert.offer.rooms === selectedRoomNumber || roomNumber.value === `any`) &&
     (advert.offer.guests === selectedGuestNumber || guestNumber.value === `any`) &&
-    (doesPriceMatch(advert, selectedPrice) || price.value === `any`)&&
+    (doesPriceMatch(advert, selectedPrice) || price.value === `any`) &&
     (doFeaturesMatch(advert, selectedFeatures));
-  }
+  };
 
-   const getFilteredList = () => {
+  const getFilteredList = () => {
     let filteredList = [];
     window.advertsList.forEach((advert) => {
       if (isSuitable(advert)) {
@@ -51,7 +49,7 @@
       }
     });
     return filteredList;
-  }
+  };
 
   window.filterAdverts = {
     list: getFilteredList
