@@ -19,12 +19,15 @@
   const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
   const resetButton = advertForm.querySelector(`.ad-form__reset`);
   const filterByType = document.querySelector(`[name='housing-type']`);
+  const filterByPrice = document.querySelector(`[name='housing-price']`);
+  const filterByRooms = document.querySelector(`[name='housing-rooms']`);
+  const filterByGuests = document.querySelector(`[name='housing-guests']`);
+  const filterByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
   const pins = document.querySelector(`.map__pins`);
 
   const onDownloadSuccess = (adverts) => {
     window.elementsRender.allPins(adverts);
     window.advertsList = adverts;
-    console.log(adverts);
   };
 
   const onSuccesUpload = () => {
@@ -36,6 +39,14 @@
   const onFailedUpload = () => {
     window.messageHandler.show(`error`);
   };
+
+  const filterList = () => {
+    if (document.querySelector(`.map__card`)) {
+      window.cardPopup.close();
+    }
+    const filteredAdverts = window.filterAdverts.list();
+    window.elementsRender.filteredPins(filteredAdverts);
+  }
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     return evt.button === Mouse.LEFT_BUTTON && window.pageMode.activate();
@@ -98,13 +109,10 @@
     advertForm.reset();
   });
 
-  filterByType.addEventListener(`change`, function (evt) {
-    evt.preventDefault();
-    // console.log(filterByType.value)
-    if (document.querySelector(`.map__card`)) {
-      window.cardPopup.close();
-    }
-    const filteredAdverts = window.filterAdverts.byType(filterByType.value);
-    window.elementsRender.filteredPins(filteredAdverts);
-  });
+  filterByType.addEventListener(`change`, filterList);
+  filterByPrice.addEventListener(`change`, filterList);
+  filterByRooms.addEventListener(`change`, filterList);
+  filterByGuests.addEventListener(`change`, filterList);
+  filterByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
+
 })();
