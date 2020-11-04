@@ -15,6 +15,21 @@
   const getTruncatedArray = (arr, limit) => shuffleArray(arr).slice(0, limit);
   const removeArray = (arr) => arr.forEach((element) => element.remove());
 
+  // const DEBOUNCE_INTERVAL = 500 //ms
+
+  // const debounce = (cb) => {
+  //   const lastTimeout = null;
+
+  //   return function (...parameters) {
+  //     if (lastTimeout) {
+  //       window.clearTimeout(lastTimeout);
+  //     }
+  //     lastTimeout = window.setTimeout(function () {
+  //       cb(...parameters);
+  //     }, DEBOUNCE_INTERVAL);
+  //   };
+  // };
+
   window.utils = {
     getRandom,
     getRandomFrom,
@@ -22,6 +37,7 @@
     invokeIfKeyIs,
     shuffleArray,
     getTruncatedArray,
-    removeArray
+    removeArray,
+    // debounce
   };
 })();
