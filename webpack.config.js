@@ -9,6 +9,7 @@ module.exports = {
     "./js/page-mode.js",
     "./js/elements-render.js",
     "./js/form-validation.js",
+    "./js/photo-upload",
     "./js/pin-move.js",
     "./js/filter-adverts.js",
     "./js/main.js",
