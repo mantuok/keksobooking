@@ -203,6 +203,7 @@ const deactivatePage = () => {
   setElementsEnabled(mapCheckboxes, false);
   map.classList.add(`map--faded`);
   advertForm.classList.add(`ad-form--disabled`);
+  window.filterAdverts.reset();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
 };
@@ -548,9 +549,6 @@ const setCoords = (startCoords, property, limitMin, limitMax, endCoords, adj = 0
 const setDefualtPosition = () => {
   mainPin.style.left = `${DEFAULT_POSITION.X}` + `px`;
   mainPin.style.top = `${DEFAULT_POSITION.Y}` + `px`;
-
-  console.log(DEFAULT_POSITION.X);
-  console.log(DEFAULT_POSITION.Y);
 }
 
 const setAddress = () => {
@@ -666,8 +664,26 @@ const getFilteredList = () => {
   return filteredList;
 };
 
+const resetFilter = () => {
+
+  type.selectedIndex = 0;
+  price.selectedIndex = 0;
+  roomNumber.selectedIndex = 0;
+  guestNumber.selectedIndex = 0;
+  Array.from(document.querySelectorAll(`[name='features']:checked`))
+    .forEach((selectedFeature) => selectedFeature.checked = false);
+
+  // features.forEach((feature) => {
+  //   if (feature.checked) {
+  //     console.log(`smth checked`)
+  //     feature.removeAttribute(`checked`);
+  //   }
+  // });
+}
+
 window.filterAdverts = {
-  list: getFilteredList
+  list: getFilteredList,
+  reset: resetFilter
 };
 
 })();

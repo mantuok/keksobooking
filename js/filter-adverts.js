@@ -50,6 +50,16 @@ const getFilteredList = () => {
   return filteredList;
 };
 
+const resetFilter = () => {
+  type.selectedIndex = 0;
+  price.selectedIndex = 0;
+  roomNumber.selectedIndex = 0;
+  guestNumber.selectedIndex = 0;
+  Array.from(document.querySelectorAll(`[name='features']:checked`))
+    .forEach((selectedFeature) => selectedFeature.checked = false);
+}
+
 window.filterAdverts = {
-  list: getFilteredList
+  list: getFilteredList,
+  reset: resetFilter
 };

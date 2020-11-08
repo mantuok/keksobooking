@@ -20,6 +20,7 @@ const deactivatePage = () => {
   setElementsEnabled(mapCheckboxes, false);
   map.classList.add(`map--faded`);
   advertForm.classList.add(`ad-form--disabled`);
+  window.filterAdverts.reset();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
 };
