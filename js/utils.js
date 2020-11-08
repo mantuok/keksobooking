@@ -4,6 +4,7 @@ const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 const getRandomFrom = (arr) => arr[getRandom(0, arr.length - 1)];
 const getRandomArray = (arr) => arr.slice(getRandom(0, arr.length / 2), getRandom(arr.length / 2 + 1, arr.length - 1));
 const invokeIfKeyIs = (key, cb) => (evt) => evt.key === key && cb(evt);
+const invokeIfButtonIs = (button, cb) => (evt) => evt.button === button && cb(evt);
 const shuffleArray = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -19,6 +20,7 @@ window.utils = {
   getRandomFrom,
   getRandomArray,
   invokeIfKeyIs,
+  invokeIfButtonIs,
   shuffleArray,
   getTruncatedArray,
   removeArray,

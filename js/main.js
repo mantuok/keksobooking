@@ -26,7 +26,6 @@ const pins = document.querySelector(`.map__pins`);
 const submitButton = document.querySelector(`.ad-form__submit`);
 
 const onDownloadSuccess = (adverts) => {
-  window.elementsRender.allPins(adverts);
   window.advertsList = adverts;
 };
 
@@ -48,11 +47,9 @@ const filterList = window.debounce(function () {
   window.elementsRender.filteredPins(filteredAdverts);
 });
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
-  return evt.button === Mouse.LEFT_BUTTON && window.pageMode.activate();
-});
+mapPinMain.addEventListener(`mousedown`, window.pageMode.activateOnMousedown);
 
-mapPinMain.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.pageMode.activate));
+mapPinMain.addEventListener(`keydown`, window.pageMode.activateOnKeydown);
 
 window.pageMode.deactivate();
 

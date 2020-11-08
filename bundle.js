@@ -12,6 +12,7 @@ const getRandom = (min, max) => Math.floor(Math.random() * (max - min) + min);
 const getRandomFrom = (arr) => arr[getRandom(0, arr.length - 1)];
 const getRandomArray = (arr) => arr.slice(getRandom(0, arr.length / 2), getRandom(arr.length / 2 + 1, arr.length - 1));
 const invokeIfKeyIs = (key, cb) => (evt) => evt.key === key && cb(evt);
+const invokeIfButtonIs = (button, cb) => (evt) => evt.button === button && cb(evt);
 const shuffleArray = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -27,6 +28,7 @@ window.utils = {
   getRandomFrom,
   getRandomArray,
   invokeIfKeyIs,
+  invokeIfButtonIs,
   shuffleArray,
   getTruncatedArray,
   removeArray,
@@ -183,6 +185,13 @@ window.messageHandler = {
 /*! runtime requirements:  */
 
 
+const Mouse = {
+  LEFT_BUTTON: 0,
+};
+const Key = {
+  ENTER: `Enter`,
+  ESC: `Escape`
+};
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
 const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element, .ad-form-header`));
@@ -209,22 +218,26 @@ const deactivatePage = () => {
 };
 
 const activatePage = () => {
+  window.elementsRender.allPins(window.advertsList);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
-
   if (document.querySelector(`.map__pin:not(.map__pin--main)`)) {
     setElementsEnabled(mapFilters, true);
   }
-
   setElementsEnabled(advertFormElements, true);
   setElementsEnabled(mapCheckboxes, true);
-
-  mapPinMain.removeEventListener(`mousedown`, activatePage);
+  mapPinMain.removeEventListener(`mousedown`, activateOnMousedown);
+  mapPinMain.removeEventListener(`keydown`, activateOnKeydown);
 };
+
+const activateOnMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
+const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 window.pageMode = {
   activate: activatePage,
-  deactivate: deactivatePage
+  deactivate: deactivatePage,
+  activateOnMousedown,
+  activateOnKeydown
 };
 
 })();
@@ -665,20 +678,12 @@ const getFilteredList = () => {
 };
 
 const resetFilter = () => {
-
   type.selectedIndex = 0;
   price.selectedIndex = 0;
   roomNumber.selectedIndex = 0;
   guestNumber.selectedIndex = 0;
   Array.from(document.querySelectorAll(`[name='features']:checked`))
     .forEach((selectedFeature) => selectedFeature.checked = false);
-
-  // features.forEach((feature) => {
-  //   if (feature.checked) {
-  //     console.log(`smth checked`)
-  //     feature.removeAttribute(`checked`);
-  //   }
-  // });
 }
 
 window.filterAdverts = {
@@ -722,7 +727,6 @@ const pins = document.querySelector(`.map__pins`);
 const submitButton = document.querySelector(`.ad-form__submit`);
 
 const onDownloadSuccess = (adverts) => {
-  window.elementsRender.allPins(adverts);
   window.advertsList = adverts;
 };
 
@@ -744,11 +748,9 @@ const filterList = window.debounce(function () {
   window.elementsRender.filteredPins(filteredAdverts);
 });
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
-  return evt.button === Mouse.LEFT_BUTTON && window.pageMode.activate();
-});
+mapPinMain.addEventListener(`mousedown`, window.pageMode.activateOnMousedown);
 
-mapPinMain.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.pageMode.activate));
+mapPinMain.addEventListener(`keydown`, window.pageMode.activateOnKeydown);
 
 window.pageMode.deactivate();
 
