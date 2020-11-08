@@ -212,9 +212,9 @@ const deactivatePage = () => {
   setElementsEnabled(mapCheckboxes, false);
   map.classList.add(`map--faded`);
   advertForm.classList.add(`ad-form--disabled`);
-  window.filterAdverts.reset();
-  window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
+  mapPinMain.addEventListener(`mousedown`, activateOnMousedown);
+  mapPinMain.addEventListener(`keydown`, activateOnKeydown);
 };
 
 const activatePage = () => {
@@ -233,11 +233,17 @@ const activatePage = () => {
 const activateOnMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
 const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
+const resetPage = () => {
+  window.filterAdverts.reset();
+  window.pinMove.setDefualtPosition();
+  window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
+  window.cardPopup.close();
+}
+
 window.pageMode = {
   activate: activatePage,
   deactivate: deactivatePage,
-  activateOnMousedown,
-  activateOnKeydown
+  reset: resetPage,
 };
 
 })();
@@ -733,6 +739,7 @@ const onDownloadSuccess = (adverts) => {
 const onSuccesUpload = () => {
   advertForm.reset();
   window.messageHandler.show(`success`);
+  window.pageMode.reset();
   window.pageMode.deactivate();
 };
 
@@ -747,10 +754,6 @@ const filterList = window.debounce(function () {
   const filteredAdverts = window.filterAdverts.list();
   window.elementsRender.filteredPins(filteredAdverts);
 });
-
-mapPinMain.addEventListener(`mousedown`, window.pageMode.activateOnMousedown);
-
-mapPinMain.addEventListener(`keydown`, window.pageMode.activateOnKeydown);
 
 window.pageMode.deactivate();
 

@@ -32,6 +32,7 @@ const onDownloadSuccess = (adverts) => {
 const onSuccesUpload = () => {
   advertForm.reset();
   window.messageHandler.show(`success`);
+  window.pageMode.reset();
   window.pageMode.deactivate();
 };
 
@@ -46,10 +47,6 @@ const filterList = window.debounce(function () {
   const filteredAdverts = window.filterAdverts.list();
   window.elementsRender.filteredPins(filteredAdverts);
 });
-
-mapPinMain.addEventListener(`mousedown`, window.pageMode.activateOnMousedown);
-
-mapPinMain.addEventListener(`keydown`, window.pageMode.activateOnKeydown);
 
 window.pageMode.deactivate();
 
