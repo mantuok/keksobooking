@@ -23,6 +23,7 @@ const filterByRooms = document.querySelector(`[name='housing-rooms']`);
 const filterByGuests = document.querySelector(`[name='housing-guests']`);
 const filterByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
 const pins = document.querySelector(`.map__pins`);
+const submitButton = document.querySelector(`.ad-form__submit`);
 
 const onDownloadSuccess = (adverts) => {
   window.elementsRender.allPins(adverts);
@@ -97,6 +98,10 @@ checkOutSelect.addEventListener(`change`, function () {
 guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
 roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
+
+submitButton.addEventListener(`click`, window.formValidation.onSubmitValidateAll);
+
+submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitValidateAll));
 
 advertForm.addEventListener(`submit`, function (evt) {
   const advertData = new FormData(advertForm);

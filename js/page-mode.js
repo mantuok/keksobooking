@@ -2,7 +2,8 @@
 
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
-const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element`));
+const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element, .ad-form-header`));
+const advertFormAvatar = document.querySelector(`.ad-form-header`);
 const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
 const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);

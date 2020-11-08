@@ -185,7 +185,8 @@ window.messageHandler = {
 
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
-const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element`));
+const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element, .ad-form-header`));
+const advertFormAvatar = document.querySelector(`.ad-form-header`);
 const mapFilters = Array.from(document.querySelectorAll(`.map__filter`));
 const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
@@ -380,6 +381,8 @@ const guestsSelect = advertForm.querySelector(`[name='capacity']`);
 const titleInput = advertForm.querySelector(`[name='title']`);
 const typeSelect = advertForm.querySelector(`[name='type']`);
 const priceInput = advertForm.querySelector(`[name='price']`);
+const checkInSelect = advertForm.querySelector(`[name='timein']`);
+const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
 
 const checkLimit = (input, value, min, max, messageMin, massageMax) => {
   if (value < min) {
@@ -428,13 +431,22 @@ const onRoomsOrGuestsChange = () => {
   validateGuests(rooms, guests);
 };
 
+const onSubmitValidateAll = () => {
+  onTitleEnter();
+  onTypeChange();
+  onPriceEnter();
+  onCheckInOutChange(checkInSelect, checkOutSelect);
+  onRoomsOrGuestsChange();
+};
+
 window.formValidation = {
   onTitleEnter,
   onTypeChange,
   onPriceEnter,
   getMinPrice,
   onCheckInOutChange,
-  onRoomsOrGuestsChange
+  onRoomsOrGuestsChange,
+  onSubmitValidateAll
 };
 
 })();
@@ -447,8 +459,8 @@ window.formValidation = {
 /*! runtime requirements:  */
 
 
-const FILE_TYPES = [`jpg`, `jpeg`, `png`]
-const advertForm = document.querySelector(`.ad-form`)
+const FILE_TYPES = [`jpg`, `jpeg`, `png`];
+const advertForm = document.querySelector(`.ad-form`);
 const avatarChooser = advertForm.querySelector(`.ad-form-header__input`);
 const avatarPreview = advertForm.querySelector(`.ad-form-header__preview img`);
 const photoChooser = advertForm.querySelector(`.ad-form__input[type='file']`);
@@ -460,7 +472,7 @@ const uploadImgFile = (imgChooser, preview) => {
 
   const matches = FILE_TYPES.some(function (it) {
     return imgName.endsWith(it);
-  })
+  });
 
   if (matches) {
     const reader = new FileReader();
@@ -479,9 +491,7 @@ const uploadImgFile = (imgChooser, preview) => {
 
     reader.readAsDataURL(img);
   }
-}
-
-console.log(photoChooser);
+};
 
 avatarChooser.addEventListener(`change`, function () {
   uploadImgFile(avatarChooser, avatarPreview);
@@ -679,6 +689,7 @@ const filterByRooms = document.querySelector(`[name='housing-rooms']`);
 const filterByGuests = document.querySelector(`[name='housing-guests']`);
 const filterByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
 const pins = document.querySelector(`.map__pins`);
+const submitButton = document.querySelector(`.ad-form__submit`);
 
 const onDownloadSuccess = (adverts) => {
   window.elementsRender.allPins(adverts);
@@ -753,6 +764,10 @@ checkOutSelect.addEventListener(`change`, function () {
 guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
 roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
+
+submitButton.addEventListener(`click`, window.formValidation.onSubmitValidateAll);
+
+submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitValidateAll));
 
 advertForm.addEventListener(`submit`, function (evt) {
   const advertData = new FormData(advertForm);

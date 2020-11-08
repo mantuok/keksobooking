@@ -23,6 +23,8 @@ const guestsSelect = advertForm.querySelector(`[name='capacity']`);
 const titleInput = advertForm.querySelector(`[name='title']`);
 const typeSelect = advertForm.querySelector(`[name='type']`);
 const priceInput = advertForm.querySelector(`[name='price']`);
+const checkInSelect = advertForm.querySelector(`[name='timein']`);
+const checkOutSelect = advertForm.querySelector(`[name='timeout']`);
 
 const checkLimit = (input, value, min, max, messageMin, massageMax) => {
   if (value < min) {
@@ -71,11 +73,20 @@ const onRoomsOrGuestsChange = () => {
   validateGuests(rooms, guests);
 };
 
+const onSubmitValidateAll = () => {
+  onTitleEnter();
+  onTypeChange();
+  onPriceEnter();
+  onCheckInOutChange(checkInSelect, checkOutSelect);
+  onRoomsOrGuestsChange();
+};
+
 window.formValidation = {
   onTitleEnter,
   onTypeChange,
   onPriceEnter,
   getMinPrice,
   onCheckInOutChange,
-  onRoomsOrGuestsChange
+  onRoomsOrGuestsChange,
+  onSubmitValidateAll
 };
