@@ -36,7 +36,7 @@ const setCoords = (startCoords, property, limitMin, limitMax, endCoords, adj = 0
 const setDefualtPosition = () => {
   mainPin.style.left = `${DEFAULT_POSITION.X}` + `px`;
   mainPin.style.top = `${DEFAULT_POSITION.Y}` + `px`;
-}
+};
 
 const setAddress = () => {
   const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2 - 1);

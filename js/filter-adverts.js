@@ -60,8 +60,10 @@ const resetFilter = () => {
   roomNumber.selectedIndex = INITIAL_SELECT_INDEX;
   guestNumber.selectedIndex = INITIAL_SELECT_INDEX;
   Array.from(document.querySelectorAll(`[name='features']:checked`))
-    .forEach((selectedFeature) => selectedFeature.checked = false);
-}
+    .forEach((selectedFeature) => {
+      selectedFeature.checked = false;
+    });
+};
 
 window.filterAdverts = {
   getFilteredList,

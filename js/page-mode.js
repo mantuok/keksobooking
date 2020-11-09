@@ -11,7 +11,6 @@ const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
 const filterForm = map.querySelector(`.map__filters`);
 const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element, .ad-form-header`));
-const advertFormAvatar = advertForm.querySelector(`.ad-form-header`);
 const mapFilters = Array.from(map.querySelectorAll(`.map__filter, .map__features`));
 const mapCheckboxes = Array.from(map.querySelectorAll(`.map__checkbox`));
 const mapPinMain = map.querySelector(`.map__pin--main`);
@@ -58,7 +57,7 @@ const resetPage = () => {
   window.pinMove.setAddress();
   window.utils.removeArray(Array.from(map.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
   window.cardPopup.close();
-}
+};
 
 window.pageMode = {
   activate: activatePage,

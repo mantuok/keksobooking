@@ -20,7 +20,7 @@ const PHOTO_ELEMENT = {
   WIDTH: `45`,
   HEIGT: `40`,
   DESCRIPTION: `Фотография жилья`
-}
+};
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const map = document.querySelector(`.map`);
@@ -29,10 +29,8 @@ const pins = map.querySelector(`.map__pins`);
 
 const getPropertyPhotos = (advert, cardElement) => {
   const photos = Array.from(advert.offer.photos);
-  console.log(photos);
   const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
-    console.log(photo);
     const photoElement = document.createElement(PHOTO_ELEMENT.TAG);
     photoElement.src = `${photo}`;
     photoElement.width = PHOTO_ELEMENT.WIDTH;

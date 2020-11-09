@@ -4,9 +4,6 @@ const Key = {
   ENTER: `Enter`,
   ESC: `Escape`
 };
-const Mouse = {
-  LEFT_BUTTON: 0,
-};
 const advertForm = document.querySelector(`.ad-form`);
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const titleInput = advertForm.querySelector(`[name='title']`);

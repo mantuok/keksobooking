@@ -6,7 +6,7 @@ const PREVIEW_ELEMENT = {
   TAG: `img`,
   WIDTH: `70`,
   HEIGHT: `70`
-}
+};
 const advertForm = document.querySelector(`.ad-form`);
 const avatarChooser = advertForm.querySelector(`.ad-form-header__input`);
 const avatarPreview = advertForm.querySelector(`.ad-form-header__preview img`);
@@ -57,4 +57,4 @@ photoChooser.addEventListener(`change`, () => {
 
 window.photoUpload = {
   reset: resetPreview
-}
+};
