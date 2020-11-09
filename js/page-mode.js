@@ -52,6 +52,7 @@ const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 const resetPage = () => {
   advertForm.reset();
+  window.photoUpload.reset();
   window.filterAdverts.resetFilter();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();

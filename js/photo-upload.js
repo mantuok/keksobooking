@@ -1,6 +1,7 @@
 'use strict';
 
 const FILE_TYPES = [`jpg`, `jpeg`, `png`];
+const DEFAULT_AVATAR = `img/muffin-grey.svg`
 const advertForm = document.querySelector(`.ad-form`);
 const avatarChooser = advertForm.querySelector(`.ad-form-header__input`);
 const avatarPreview = advertForm.querySelector(`.ad-form-header__preview img`);
@@ -34,6 +35,13 @@ const uploadImgFile = (imgChooser, preview) => {
   }
 };
 
+const resetPreview = () => {
+  avatarPreview.src = DEFAULT_AVATAR;
+  if (photoPreview.querySelector(`img`)) {
+    photoPreview.querySelector(`img`).remove();
+  }
+};
+
 avatarChooser.addEventListener(`change`, () => {
   uploadImgFile(avatarChooser, avatarPreview);
 });
@@ -41,3 +49,7 @@ avatarChooser.addEventListener(`change`, () => {
 photoChooser.addEventListener(`change`, () => {
   uploadImgFile(photoChooser, photoPreview);
 });
+
+window.photoUpload = {
+  reset: resetPreview
+}
