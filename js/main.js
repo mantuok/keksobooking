@@ -39,7 +39,7 @@ const onFailedUpload = () => {
   window.messageHandler.show(`error`);
 };
 
-const filterChangeHandler = window.debounce(function () {
+const filterChangeHandler = window.debounce(() => {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
@@ -51,11 +51,11 @@ window.pageMode.deactivate();
 
 window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
+mapPinMain.addEventListener(`mousedown`, (evt) => {
   return window.pinMove.move(evt);
 });
 
-pins.addEventListener(`click`, function (evt) {
+pins.addEventListener(`click`, (evt) => {
   const target = evt.target;
   const targetParent = target.parentNode;
   if (targetParent.classList.contains(`map__pin`) && !targetParent.classList.contains(`map__pin--main`)) {
@@ -65,7 +65,7 @@ pins.addEventListener(`click`, function (evt) {
   }
 });
 
-pins.addEventListener(`keydown`, function (evt) {
+pins.addEventListener(`keydown`, (evt) => {
   const target = evt.target;
   if (evt.key === Key.ENTER && !target.classList.contains(`map__pin--main`)) {
     evt.preventDefault();
@@ -80,11 +80,11 @@ typeSelect.addEventListener(`change`, window.formValidation.onTypeChange);
 
 priceInput.addEventListener(`input`, window.formValidation.onPriceEnter);
 
-checkInSelect.addEventListener(`change`, function () {
+checkInSelect.addEventListener(`change`, () => {
   return window.formValidation.onCheckInOutChange(checkInSelect, checkOutSelect);
 });
 
-checkOutSelect.addEventListener(`change`, function () {
+checkOutSelect.addEventListener(`change`, () => {
   return window.formValidation.onCheckInOutChange(checkOutSelect, checkInSelect);
 });
 
@@ -96,13 +96,13 @@ submitButton.addEventListener(`click`, window.formValidation.onSubmitButtonClick
 
 submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitButtonClick));
 
-advertForm.addEventListener(`submit`, function (evt) {
+advertForm.addEventListener(`submit`, (evt) => {
   const advertData = new FormData(advertForm);
   window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
   evt.preventDefault();
 });
 
-resetButton.addEventListener(`click`, function () {
+resetButton.addEventListener(`click`, () => {
   window.pageMode.reset();
   window.pageMode.deactivate();
 });

@@ -16,7 +16,7 @@ const onPopupClose = () => {
   if (card) {
     card.remove();
   }
-  document.removeEventListener(`keydown`, function () {
+  document.removeEventListener(`keydown`, () => {
     return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
   });
 };

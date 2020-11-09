@@ -46,14 +46,14 @@ window.utils = {
 
 const DEBOUNCE_INTERVAL = 500;
 
-window.debounce = function (cb) {
+window.debounce = (cb) => {
   let lastTimeout = null;
 
-  return function (...parameters) {
+  return (...parameters) => {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(function () {
+    lastTimeout = window.setTimeout(() => {
       cb(...parameters);
     }, DEBOUNCE_INTERVAL);
   };
@@ -85,17 +85,17 @@ const Url = {
 const sendRequest = (onSuccess, onError, method, url, data) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
-  xhr.addEventListener(`load`, function () {
+  xhr.addEventListener(`load`, () => {
     if (xhr.status === StatusCode.OK) {
       onSuccess(xhr.response);
     } else {
       onError(`Произошла ошибка ` + xhr.status + xhr.statusText);
     }
   });
-  xhr.addEventListener(`error`, function () {
+  xhr.addEventListener(`error`, () => {
     onError(`Произошла ошибка соединения`);
   });
-  xhr.addEventListener(`timeout`, function () {
+  xhr.addEventListener(`timeout`, () => {
     onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + ` мс`);
   });
   xhr.timeout = TIMEOUT_MS;
@@ -202,7 +202,7 @@ const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
 
 const setElementsEnabled = (elements, enabled) => {
-  elements.forEach(function (element) {
+  elements.forEach((element) => {
     element.disabled = !enabled;
   });
 };
@@ -494,14 +494,14 @@ const uploadImgFile = (imgChooser, preview) => {
   const img = imgChooser.files[0];
   const imgName = img.name.toLowerCase();
 
-  const matches = FILE_TYPES.some(function (it) {
+  const matches = FILE_TYPES.some((it) => {
     return imgName.endsWith(it);
   });
 
   if (matches) {
     const reader = new FileReader();
 
-    reader.addEventListener(`load`, function () {
+    reader.addEventListener(`load`, () => {
       if (preview.tagName === `IMG`) {
         preview.src = reader.result;
       } else {
@@ -517,11 +517,11 @@ const uploadImgFile = (imgChooser, preview) => {
   }
 };
 
-avatarChooser.addEventListener(`change`, function () {
+avatarChooser.addEventListener(`change`, () => {
   uploadImgFile(avatarChooser, avatarPreview);
 });
 
-photoChooser.addEventListener(`change`, function () {
+photoChooser.addEventListener(`change`, () => {
   uploadImgFile(photoChooser, photoPreview);
 });
 
@@ -752,7 +752,7 @@ const onFailedUpload = () => {
   window.messageHandler.show(`error`);
 };
 
-const filterChangeHandler = window.debounce(function () {
+const filterChangeHandler = window.debounce(() => {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
@@ -764,11 +764,11 @@ window.pageMode.deactivate();
 
 window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
+mapPinMain.addEventListener(`mousedown`, (evt) => {
   return window.pinMove.move(evt);
 });
 
-pins.addEventListener(`click`, function (evt) {
+pins.addEventListener(`click`, (evt) => {
   const target = evt.target;
   const targetParent = target.parentNode;
   if (targetParent.classList.contains(`map__pin`) && !targetParent.classList.contains(`map__pin--main`)) {
@@ -778,7 +778,7 @@ pins.addEventListener(`click`, function (evt) {
   }
 });
 
-pins.addEventListener(`keydown`, function (evt) {
+pins.addEventListener(`keydown`, (evt) => {
   const target = evt.target;
   if (evt.key === Key.ENTER && !target.classList.contains(`map__pin--main`)) {
     evt.preventDefault();
@@ -793,11 +793,11 @@ typeSelect.addEventListener(`change`, window.formValidation.onTypeChange);
 
 priceInput.addEventListener(`input`, window.formValidation.onPriceEnter);
 
-checkInSelect.addEventListener(`change`, function () {
+checkInSelect.addEventListener(`change`, () => {
   return window.formValidation.onCheckInOutChange(checkInSelect, checkOutSelect);
 });
 
-checkOutSelect.addEventListener(`change`, function () {
+checkOutSelect.addEventListener(`change`, () => {
   return window.formValidation.onCheckInOutChange(checkOutSelect, checkInSelect);
 });
 
@@ -809,13 +809,13 @@ submitButton.addEventListener(`click`, window.formValidation.onSubmitButtonClick
 
 submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitButtonClick));
 
-advertForm.addEventListener(`submit`, function (evt) {
+advertForm.addEventListener(`submit`, (evt) => {
   const advertData = new FormData(advertForm);
   window.backend.upload(onSuccesUpload, onFailedUpload, advertData);
   evt.preventDefault();
 });
 
-resetButton.addEventListener(`click`, function () {
+resetButton.addEventListener(`click`, () => {
   window.pageMode.reset();
   window.pageMode.deactivate();
 });
@@ -852,7 +852,7 @@ const onPopupClose = () => {
   if (card) {
     card.remove();
   }
-  document.removeEventListener(`keydown`, function () {
+  document.removeEventListener(`keydown`, () => {
     return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
   });
 };

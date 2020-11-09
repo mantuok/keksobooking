@@ -17,7 +17,7 @@ const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
 const mapPinMain = document.querySelector(`.map__pin--main`);
 
 const setElementsEnabled = (elements, enabled) => {
-  elements.forEach(function (element) {
+  elements.forEach((element) => {
     element.disabled = !enabled;
   });
 };

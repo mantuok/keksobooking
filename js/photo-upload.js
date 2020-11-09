@@ -11,14 +11,14 @@ const uploadImgFile = (imgChooser, preview) => {
   const img = imgChooser.files[0];
   const imgName = img.name.toLowerCase();
 
-  const matches = FILE_TYPES.some(function (it) {
+  const matches = FILE_TYPES.some((it) => {
     return imgName.endsWith(it);
   });
 
   if (matches) {
     const reader = new FileReader();
 
-    reader.addEventListener(`load`, function () {
+    reader.addEventListener(`load`, () => {
       if (preview.tagName === `IMG`) {
         preview.src = reader.result;
       } else {
@@ -34,10 +34,10 @@ const uploadImgFile = (imgChooser, preview) => {
   }
 };
 
-avatarChooser.addEventListener(`change`, function () {
+avatarChooser.addEventListener(`change`, () => {
   uploadImgFile(avatarChooser, avatarPreview);
 });
 
-photoChooser.addEventListener(`change`, function () {
+photoChooser.addEventListener(`change`, () => {
   uploadImgFile(photoChooser, photoPreview);
 });

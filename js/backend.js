@@ -16,17 +16,17 @@ const Url = {
 const sendRequest = (onSuccess, onError, method, url, data) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
-  xhr.addEventListener(`load`, function () {
+  xhr.addEventListener(`load`, () => {
     if (xhr.status === StatusCode.OK) {
       onSuccess(xhr.response);
     } else {
       onError(`Произошла ошибка ` + xhr.status + xhr.statusText);
     }
   });
-  xhr.addEventListener(`error`, function () {
+  xhr.addEventListener(`error`, () => {
     onError(`Произошла ошибка соединения`);
   });
-  xhr.addEventListener(`timeout`, function () {
+  xhr.addEventListener(`timeout`, () => {
     onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + ` мс`);
   });
   xhr.timeout = TIMEOUT_MS;
