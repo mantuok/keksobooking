@@ -39,7 +39,7 @@ const onFailedUpload = () => {
   window.messageHandler.show(`error`);
 };
 
-const filterList = window.debounce(function () {
+const filterHandler = window.debounce(function () {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
@@ -92,9 +92,9 @@ guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsCha
 
 roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
-submitButton.addEventListener(`click`, window.formValidation.onSubmitValidateAll);
+submitButton.addEventListener(`click`, window.formValidation.onSubmitButtonClick);
 
-submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitValidateAll));
+submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitButtonClick));
 
 advertForm.addEventListener(`submit`, function (evt) {
   const advertData = new FormData(advertForm);
@@ -107,8 +107,8 @@ resetButton.addEventListener(`click`, function () {
   window.pageMode.deactivate();
 });
 
-filterByType.addEventListener(`change`, filterList);
-filterByPrice.addEventListener(`change`, filterList);
-filterByRooms.addEventListener(`change`, filterList);
-filterByGuests.addEventListener(`change`, filterList);
-filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
+filterByType.addEventListener(`change`, filterHandler);
+filterByPrice.addEventListener(`change`, filterHandler);
+filterByRooms.addEventListener(`change`, filterHandler);
+filterByGuests.addEventListener(`change`, filterHandler);
+filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterHandler));

@@ -73,7 +73,7 @@ const onRoomsOrGuestsChange = () => {
   validateGuests(rooms, guests);
 };
 
-const onSubmitValidateAll = () => {
+const onSubmitButtonClick = () => {
   onTitleEnter();
   onTypeChange();
   onPriceEnter();
@@ -87,5 +87,5 @@ window.formValidation = {
   onPriceEnter,
   onCheckInOutChange,
   onRoomsOrGuestsChange,
-  onSubmitValidateAll
+  onSubmitButtonClick
 };
