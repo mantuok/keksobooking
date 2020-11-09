@@ -39,7 +39,7 @@ const onFailedUpload = () => {
   window.messageHandler.show(`error`);
 };
 
-const filterHandler = window.debounce(function () {
+const filterChangeHandler = window.debounce(function () {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
@@ -107,8 +107,8 @@ resetButton.addEventListener(`click`, function () {
   window.pageMode.deactivate();
 });
 
-filterByType.addEventListener(`change`, filterHandler);
-filterByPrice.addEventListener(`change`, filterHandler);
-filterByRooms.addEventListener(`change`, filterHandler);
-filterByGuests.addEventListener(`change`, filterHandler);
-filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterHandler));
+filterByType.addEventListener(`change`, filterChangeHandler);
+filterByPrice.addEventListener(`change`, filterChangeHandler);
+filterByRooms.addEventListener(`change`, filterChangeHandler);
+filterByGuests.addEventListener(`change`, filterChangeHandler);
+filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterChangeHandler));

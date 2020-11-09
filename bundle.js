@@ -456,7 +456,7 @@ const onRoomsOrGuestsChange = () => {
   validateGuests(rooms, guests);
 };
 
-const onSubmitValidateAll = () => {
+const onSubmitButtonClick = () => {
   onTitleEnter();
   onTypeChange();
   onPriceEnter();
@@ -470,7 +470,7 @@ window.formValidation = {
   onPriceEnter,
   onCheckInOutChange,
   onRoomsOrGuestsChange,
-  onSubmitValidateAll
+  onSubmitButtonClick
 };
 
 })();
@@ -678,12 +678,6 @@ const isSuitable = (advert) => {
 
 const getFilteredList = () => {
   let filteredList = [];
-  // window.advertsList.forEach((advert) => {
-  //   if (isSuitable(advert)) {
-  //     filteredList.push(advert);
-  //   }
-  //   filteredList.length === 5 &&
-  // });
   for (let i = 0; i < window.advertsList.length; i++) {
     if (isSuitable(window.advertsList[i])) {
       filteredList.push(window.advertsList[i]);
@@ -758,7 +752,7 @@ const onFailedUpload = () => {
   window.messageHandler.show(`error`);
 };
 
-const filterList = window.debounce(function () {
+const filterChangeHandler = window.debounce(function () {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
@@ -811,9 +805,9 @@ guestsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsCha
 
 roomsSelect.addEventListener(`change`, window.formValidation.onRoomsOrGuestsChange);
 
-submitButton.addEventListener(`click`, window.formValidation.onSubmitValidateAll);
+submitButton.addEventListener(`click`, window.formValidation.onSubmitButtonClick);
 
-submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitValidateAll));
+submitButton.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, window.formValidation.onSubmitButtonClick));
 
 advertForm.addEventListener(`submit`, function (evt) {
   const advertData = new FormData(advertForm);
@@ -826,11 +820,11 @@ resetButton.addEventListener(`click`, function () {
   window.pageMode.deactivate();
 });
 
-filterByType.addEventListener(`change`, filterList);
-filterByPrice.addEventListener(`change`, filterList);
-filterByRooms.addEventListener(`change`, filterList);
-filterByGuests.addEventListener(`change`, filterList);
-filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
+filterByType.addEventListener(`change`, filterChangeHandler);
+filterByPrice.addEventListener(`change`, filterChangeHandler);
+filterByRooms.addEventListener(`change`, filterChangeHandler);
+filterByGuests.addEventListener(`change`, filterChangeHandler);
+filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterChangeHandler));
 
 })();
 
@@ -847,25 +841,25 @@ const Key = {
   ESC: `Escape`
 };
 
-const openPopup = (targetPinName) => {
+const onPopupOpen = (targetPinName) => {
   window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
-  document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, closePopup));
-  document.querySelector(`.popup__close`).addEventListener(`click`, closePopup);
+  document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, onPopupClose));
+  document.querySelector(`.popup__close`).addEventListener(`click`, onPopupClose);
 };
 
-const closePopup = () => {
+const onPopupClose = () => {
   const card = document.querySelector(`.map__card`);
   if (card) {
     card.remove();
   }
   document.removeEventListener(`keydown`, function () {
-    return window.utils.invokeIfKeyIs(Key.ESC, closePopup);
+    return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
   });
 };
 
 window.cardPopup = {
-  open: openPopup,
-  close: closePopup
+  open: onPopupOpen,
+  close: onPopupClose
 };
 
 })();

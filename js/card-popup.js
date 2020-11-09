@@ -5,23 +5,23 @@ const Key = {
   ESC: `Escape`
 };
 
-const openPopup = (targetPinName) => {
+const onPopupOpen = (targetPinName) => {
   window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
-  document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, closePopup));
-  document.querySelector(`.popup__close`).addEventListener(`click`, closePopup);
+  document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, onPopupClose));
+  document.querySelector(`.popup__close`).addEventListener(`click`, onPopupClose);
 };
 
-const closePopup = () => {
+const onPopupClose = () => {
   const card = document.querySelector(`.map__card`);
   if (card) {
     card.remove();
   }
   document.removeEventListener(`keydown`, function () {
-    return window.utils.invokeIfKeyIs(Key.ESC, closePopup);
+    return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
   });
 };
 
 window.cardPopup = {
-  open: openPopup,
-  close: closePopup
+  open: onPopupOpen,
+  close: onPopupClose
 };
