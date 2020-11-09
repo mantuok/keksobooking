@@ -35,7 +35,7 @@ const deactivatePage = () => {
 };
 
 const activatePage = () => {
-  window.elementsRender.allPins(window.advertsList);
+  window.elementsRender.renderAllPins(window.advertsList);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
   if (document.querySelector(`.map__pin:not(.map__pin--main)`)) {
@@ -52,7 +52,7 @@ const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 const resetPage = () => {
   advertForm.reset();
-  window.filterAdverts.reset();
+  window.filterAdverts.resetFilter();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
   window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));

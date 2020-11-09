@@ -25,7 +25,7 @@ const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features'
 const pins = document.querySelector(`.map__pins`);
 const submitButton = document.querySelector(`.ad-form__submit`);
 
-const onDownloadSuccess = (adverts) => {
+const onSuccessDownload = (adverts) => {
   window.advertsList = adverts;
 };
 
@@ -43,13 +43,13 @@ const filterList = window.debounce(function () {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
-  const filteredAdverts = window.filterAdverts.list();
-  window.elementsRender.filteredPins(filteredAdverts);
+  const filteredAdverts = window.filterAdverts.getFilteredList();
+  window.elementsRender.renderFilteredPins(filteredAdverts);
 });
 
 window.pageMode.deactivate();
 
-window.backend.download(onDownloadSuccess, window.messageHandler.onDownloadError);
+window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   return window.pinMove.move(evt);
@@ -111,4 +111,4 @@ filterByType.addEventListener(`change`, filterList);
 filterByPrice.addEventListener(`change`, filterList);
 filterByRooms.addEventListener(`change`, filterList);
 filterByGuests.addEventListener(`change`, filterList);
-filterByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
+filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));

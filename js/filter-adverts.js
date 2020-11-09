@@ -60,6 +60,6 @@ const resetFilter = () => {
 }
 
 window.filterAdverts = {
-  list: getFilteredList,
-  reset: resetFilter
+  getFilteredList,
+  resetFilter
 };

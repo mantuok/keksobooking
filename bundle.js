@@ -82,7 +82,7 @@ const Url = {
   UPLOAD: `https://21.javascript.pages.academy/keksobooking`
 };
 
-const sendRequest = (onSuccess, onError, method, URL, data) => {
+const sendRequest = (onSuccess, onError, method, url, data) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
   xhr.addEventListener(`load`, function () {
@@ -99,7 +99,7 @@ const sendRequest = (onSuccess, onError, method, URL, data) => {
     onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + ` мс`);
   });
   xhr.timeout = TIMEOUT_MS;
-  xhr.open(method, URL);
+  xhr.open(method, url);
   xhr.send(data);
 };
 
@@ -213,13 +213,14 @@ const deactivatePage = () => {
   setElementsEnabled(mapCheckboxes, false);
   map.classList.add(`map--faded`);
   filterForm.classList.add(`map__filters--disabled`);
+  advertForm.classList.add(`ad-form--disabled`);
   window.pinMove.setAddress();
   mapPinMain.addEventListener(`mousedown`, activateOnMousedown);
   mapPinMain.addEventListener(`keydown`, activateOnKeydown);
 };
 
 const activatePage = () => {
-  window.elementsRender.allPins(window.advertsList);
+  window.elementsRender.renderAllPins(window.advertsList);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
   if (document.querySelector(`.map__pin:not(.map__pin--main)`)) {
@@ -236,7 +237,7 @@ const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 const resetPage = () => {
   advertForm.reset();
-  window.filterAdverts.reset();
+  window.filterAdverts.resetFilter();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
   window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
@@ -359,17 +360,17 @@ const renderSelectedCard = (adverts, selectedCard) => {
   map.insertBefore(fragment, mapFilter);
 };
 
-const renderFilteredAPins = (filteredAdverts) => {
+const renderFilteredPins = (filteredAdverts) => {
   window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
   renderAllPins(filteredAdverts);
 };
 
 window.elementsRender = {
-  pin: renderPin,
-  card: renderCard,
-  allPins: renderAllPins,
-  selectedCard: renderSelectedCard,
-  filteredPins: renderFilteredAPins
+  renderPin,
+  renderCard,
+  renderAllPins,
+  renderSelectedCard,
+  renderFilteredPins
 };
 
 })();
@@ -467,7 +468,6 @@ window.formValidation = {
   onTitleEnter,
   onTypeChange,
   onPriceEnter,
-  getMinPrice,
   onCheckInOutChange,
   onRoomsOrGuestsChange,
   onSubmitValidateAll
@@ -574,7 +574,7 @@ const setDefualtPosition = () => {
 }
 
 const setAddress = () => {
-  const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2);
+  const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2 - 1);
   const y = mainPin.offsetTop + PIN_SIZE.HEIGHT;
   addressInput.value = `${x}, ${y}`;
 };
@@ -696,8 +696,8 @@ const resetFilter = () => {
 }
 
 window.filterAdverts = {
-  list: getFilteredList,
-  reset: resetFilter
+  getFilteredList,
+  resetFilter
 };
 
 })();
@@ -731,11 +731,11 @@ const filterByType = document.querySelector(`[name='housing-type']`);
 const filterByPrice = document.querySelector(`[name='housing-price']`);
 const filterByRooms = document.querySelector(`[name='housing-rooms']`);
 const filterByGuests = document.querySelector(`[name='housing-guests']`);
-const filterByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
+const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
 const pins = document.querySelector(`.map__pins`);
 const submitButton = document.querySelector(`.ad-form__submit`);
 
-const onDownloadSuccess = (adverts) => {
+const onSuccessDownload = (adverts) => {
   window.advertsList = adverts;
 };
 
@@ -753,13 +753,13 @@ const filterList = window.debounce(function () {
   if (document.querySelector(`.map__card`)) {
     window.cardPopup.close();
   }
-  const filteredAdverts = window.filterAdverts.list();
-  window.elementsRender.filteredPins(filteredAdverts);
+  const filteredAdverts = window.filterAdverts.getFilteredList();
+  window.elementsRender.renderFilteredPins(filteredAdverts);
 });
 
 window.pageMode.deactivate();
 
-window.backend.download(onDownloadSuccess, window.messageHandler.onDownloadError);
+window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   return window.pinMove.move(evt);
@@ -821,7 +821,7 @@ filterByType.addEventListener(`change`, filterList);
 filterByPrice.addEventListener(`change`, filterList);
 filterByRooms.addEventListener(`change`, filterList);
 filterByGuests.addEventListener(`change`, filterList);
-filterByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
+filtersByFeatures.forEach((feature) => feature.addEventListener(`change`, filterList));
 
 })();
 
@@ -839,7 +839,7 @@ const Key = {
 };
 
 const openPopup = (targetPinName) => {
-  window.elementsRender.selectedCard(Array.from(window.advertsList), targetPinName);
+  window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
   document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, closePopup));
   document.querySelector(`.popup__close`).addEventListener(`click`, closePopup);
 };

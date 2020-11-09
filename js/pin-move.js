@@ -39,7 +39,7 @@ const setDefualtPosition = () => {
 }
 
 const setAddress = () => {
-  const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2);
+  const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2 - 1);
   const y = mainPin.offsetTop + PIN_SIZE.HEIGHT;
   addressInput.value = `${x}, ${y}`;
 };

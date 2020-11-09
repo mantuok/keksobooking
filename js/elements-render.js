@@ -100,15 +100,15 @@ const renderSelectedCard = (adverts, selectedCard) => {
   map.insertBefore(fragment, mapFilter);
 };
 
-const renderFilteredAPins = (filteredAdverts) => {
+const renderFilteredPins = (filteredAdverts) => {
   window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
   renderAllPins(filteredAdverts);
 };
 
 window.elementsRender = {
-  pin: renderPin,
-  card: renderCard,
-  allPins: renderAllPins,
-  selectedCard: renderSelectedCard,
-  filteredPins: renderFilteredAPins
+  renderPin,
+  renderCard,
+  renderAllPins,
+  renderSelectedCard,
+  renderFilteredPins
 };

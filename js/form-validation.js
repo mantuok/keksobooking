@@ -85,7 +85,6 @@ window.formValidation = {
   onTitleEnter,
   onTypeChange,
   onPriceEnter,
-  getMinPrice,
   onCheckInOutChange,
   onRoomsOrGuestsChange,
   onSubmitValidateAll

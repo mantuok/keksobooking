@@ -6,7 +6,7 @@ const Key = {
 };
 
 const openPopup = (targetPinName) => {
-  window.elementsRender.selectedCard(Array.from(window.advertsList), targetPinName);
+  window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
   document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, closePopup));
   document.querySelector(`.popup__close`).addEventListener(`click`, closePopup);
 };
