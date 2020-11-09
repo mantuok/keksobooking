@@ -42,11 +42,14 @@ const isSuitable = (advert) => {
 
 const getFilteredList = () => {
   let filteredList = [];
-  window.advertsList.forEach((advert) => {
-    if (isSuitable(advert)) {
-      filteredList.push(advert);
+  for (let i = 0; i < window.advertsList.length; i++) {
+    if (isSuitable(window.advertsList[i])) {
+      filteredList.push(window.advertsList[i]);
     }
-  });
+    if (filteredList.length === 5) {
+      break;
+    }
+  }
   return filteredList;
 };
 
