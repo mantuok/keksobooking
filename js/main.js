@@ -21,7 +21,7 @@ const filterByType = document.querySelector(`[name='housing-type']`);
 const filterByPrice = document.querySelector(`[name='housing-price']`);
 const filterByRooms = document.querySelector(`[name='housing-rooms']`);
 const filterByGuests = document.querySelector(`[name='housing-guests']`);
-const filterByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
+const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
 const pins = document.querySelector(`.map__pins`);
 const submitButton = document.querySelector(`.ad-form__submit`);
 
@@ -30,7 +30,6 @@ const onDownloadSuccess = (adverts) => {
 };
 
 const onSuccesUpload = () => {
-  advertForm.reset();
   window.messageHandler.show(`success`);
   window.pageMode.reset();
   window.pageMode.deactivate();
@@ -104,7 +103,8 @@ advertForm.addEventListener(`submit`, function (evt) {
 });
 
 resetButton.addEventListener(`click`, function () {
-  advertForm.reset();
+  window.pageMode.reset();
+  window.pageMode.deactivate();
 });
 
 filterByType.addEventListener(`change`, filterList);

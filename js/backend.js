@@ -13,7 +13,7 @@ const Url = {
   UPLOAD: `https://21.javascript.pages.academy/keksobooking`
 };
 
-const sendRequest = (onSuccess, onError, method, URL, data) => {
+const sendRequest = (onSuccess, onError, method, url, data) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = `json`;
   xhr.addEventListener(`load`, function () {
@@ -30,7 +30,7 @@ const sendRequest = (onSuccess, onError, method, URL, data) => {
     onError(`Запрос не успел выполниться за ` + TIMEOUT_MS + ` мс`);
   });
   xhr.timeout = TIMEOUT_MS;
-  xhr.open(method, URL);
+  xhr.open(method, url);
   xhr.send(data);
 };
 
