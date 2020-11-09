@@ -9,12 +9,12 @@ const Key = {
 };
 const map = document.querySelector(`.map`);
 const advertForm = document.querySelector(`.ad-form`);
-const filterForm = document.querySelector(`.map__filters`);
+const filterForm = map.querySelector(`.map__filters`);
 const advertFormElements = Array.from(advertForm.querySelectorAll(`.ad-form__element, .ad-form-header`));
-const advertFormAvatar = document.querySelector(`.ad-form-header`);
-const mapFilters = Array.from(document.querySelectorAll(`.map__filter, .map__features`));
-const mapCheckboxes = Array.from(document.querySelectorAll(`.map__checkbox`));
-const mapPinMain = document.querySelector(`.map__pin--main`);
+const advertFormAvatar = advertForm.querySelector(`.ad-form-header`);
+const mapFilters = Array.from(map.querySelectorAll(`.map__filter, .map__features`));
+const mapCheckboxes = Array.from(map.querySelectorAll(`.map__checkbox`));
+const mapPinMain = map.querySelector(`.map__pin--main`);
 
 const setElementsEnabled = (elements, enabled) => {
   elements.forEach((element) => {
@@ -38,7 +38,7 @@ const activatePage = () => {
   window.elementsRender.renderAllPins(window.advertsList);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
-  if (document.querySelector(`.map__pin:not(.map__pin--main)`)) {
+  if (map.querySelector(`.map__pin:not(.map__pin--main)`)) {
     setElementsEnabled(mapFilters, true);
   }
   setElementsEnabled(advertFormElements, true);
@@ -56,7 +56,7 @@ const resetPage = () => {
   window.filterAdverts.resetFilter();
   window.pinMove.setDefualtPosition();
   window.pinMove.setAddress();
-  window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
+  window.utils.removeArray(Array.from(map.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
   window.cardPopup.close();
 }
 

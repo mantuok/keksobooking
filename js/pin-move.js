@@ -15,7 +15,7 @@ const MOVE_Y_LIMIT = {
   MIN: 130,
   MAX: 630
 };
-const mainPin = document.querySelector(`.map__pin--main`);
+const mainPin = map.querySelector(`.map__pin--main`);
 const advertForm = document.querySelector(`.ad-form`);
 const addressInput = advertForm.querySelector(`[name='address']`);
 const DEFAULT_POSITION = {

@@ -23,7 +23,7 @@ const filterByRooms = document.querySelector(`[name='housing-rooms']`);
 const filterByGuests = document.querySelector(`[name='housing-guests']`);
 const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features']`));
 const pins = document.querySelector(`.map__pins`);
-const submitButton = document.querySelector(`.ad-form__submit`);
+const submitButton = advertForm.querySelector(`.ad-form__submit`);
 
 const onSuccessDownload = (adverts) => {
   window.advertsList = adverts;

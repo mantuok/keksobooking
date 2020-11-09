@@ -24,8 +24,8 @@ const PHOTO_ELEMENT = {
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const map = document.querySelector(`.map`);
-const mapFilter = document.querySelector(`.map__filters-container`);
-const pins = document.querySelector(`.map__pins`);
+const mapFilter = map.querySelector(`.map__filters-container`);
+const pins = map.querySelector(`.map__pins`);
 
 const getPropertyPhotos = (advert, cardElement) => {
   const photos = Array.from(advert.offer.photos);
@@ -109,7 +109,7 @@ const renderSelectedCard = (adverts, selectedCard) => {
 };
 
 const renderFilteredPins = (filteredAdverts) => {
-  window.utils.removeArray(Array.from(document.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
+  window.utils.removeArray(Array.from(map.querySelectorAll(`.map__pin:not(.map__pin--main)`)));
   renderAllPins(filteredAdverts);
 };
 
