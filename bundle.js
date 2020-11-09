@@ -268,7 +268,7 @@ const PropertyType = {
   house: `Дом`,
   palace: `Дворец`
 };
-const ProprtyFeature = {
+const PropertyFeature = {
   wifi: `popup__feature--wifi`,
   dishwasher: `popup__feature--dishwasher`,
   parking: `popup__feature--parking`,
@@ -290,16 +290,18 @@ const pins = document.querySelector(`.map__pins`);
 
 const getPropertyPhotos = (advert, cardElement) => {
   const photos = Array.from(advert.offer.photos);
+  console.log(photos);
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < photos.length; i++) {
+  photos.forEach((photo) => {
+    console.log(photo);
     const photoElement = document.createElement(PHOTO_ELEMENT.TAG);
-    photoElement.src = `${advert.offer.photos[i]}`;
+    photoElement.src = `${photo}`;
     photoElement.width = PHOTO_ELEMENT.WIDTH;
     photoElement.height = PHOTO_ELEMENT.HEIGT;
     photoElement.alt = PHOTO_ELEMENT.DESCRIPTION;
     photoElement.classList.add(`popup__photo`);
     fragment.appendChild(photoElement);
-  }
+  });
   cardElement.querySelector(`.popup__photos`).appendChild(fragment);
 };
 
@@ -307,11 +309,16 @@ const getPropertyFeatures = (advert, cardElement) => {
   const featureList = cardElement.querySelector(`.popup__features`);
   const features = Array.from(advert.offer.features);
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < features.length; i++) {
+  features.forEach((feature) => {
     const featureElement = document.createElement(`li`);
-    featureElement.classList.add(`popup__feature`, `${ProprtyFeature[features[i]]}`);
+    featureElement.classList.add(`popup__feature`, `${PropertyFeature[feature]}`);
     fragment.appendChild(featureElement);
-  }
+  });
+  // for (let i = 0; i < features.length; i++) {
+  //   const featureElement = document.createElement(`li`);
+  //   featureElement.classList.add(`popup__feature`, `${ProprtyFeature[features[i]]}`);
+  //   fragment.appendChild(featureElement);
+  // }
   featureList.appendChild(fragment);
 };
 
