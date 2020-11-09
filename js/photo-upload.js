@@ -1,7 +1,12 @@
 'use strict';
 
 const FILE_TYPES = [`jpg`, `jpeg`, `png`];
-const DEFAULT_AVATAR = `img/muffin-grey.svg`
+const DEFAULT_AVATAR = `img/muffin-grey.svg`;
+const PREVIEW_ELEMENT = {
+  TAG: `img`,
+  WIDTH: `70`,
+  HEIGHT: `70`
+}
 const advertForm = document.querySelector(`.ad-form`);
 const avatarChooser = advertForm.querySelector(`.ad-form-header__input`);
 const avatarPreview = advertForm.querySelector(`.ad-form-header__preview img`);
@@ -23,10 +28,10 @@ const uploadImgFile = (imgChooser, preview) => {
       if (preview.tagName === `IMG`) {
         preview.src = reader.result;
       } else {
-        const previewElement = document.createElement(`img`);
+        const previewElement = document.createElement(PREVIEW_ELEMENT.TAG);
         previewElement.src = reader.result;
-        previewElement.width = `70`;
-        previewElement.height = `70`;
+        previewElement.width = PREVIEW_ELEMENT.WIDTH;
+        previewElement.height = PREVIEW_ELEMENT.HEIGHT;
         preview.appendChild(previewElement);
       }
     });

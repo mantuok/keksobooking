@@ -15,6 +15,12 @@ const ProprtyFeature = {
   elevator: `popup__feature--elevator`,
   conditioner: `popup__feature--conditioner`
 };
+const PHOTO_ELEMENT = {
+  TAG: `img`,
+  WIDTH: `45`,
+  HEIGT: `40`,
+  DESCRIPTION: `Фотография жилья`
+}
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const map = document.querySelector(`.map`);
@@ -25,11 +31,11 @@ const getPropertyPhotos = (advert, cardElement) => {
   const photos = Array.from(advert.offer.photos);
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < photos.length; i++) {
-    const photoElement = document.createElement(`img`);
+    const photoElement = document.createElement(PHOTO_ELEMENT.TAG);
     photoElement.src = `${advert.offer.photos[i]}`;
-    photoElement.width = `45`;
-    photoElement.height = `40`;
-    photoElement.alt = `Фотография жилья`;
+    photoElement.width = PHOTO_ELEMENT.WIDTH;
+    photoElement.height = PHOTO_ELEMENT.HEIGT;
+    photoElement.alt = PHOTO_ELEMENT.DESCRIPTION;
     photoElement.classList.add(`popup__photo`);
     fragment.appendChild(photoElement);
   }

@@ -4,6 +4,7 @@ const Price = {
   LOW: 10000,
   HIGH: 50000
 };
+const INITIAL_SELECT_INDEX = 0;
 const type = document.querySelector(`[name='housing-type']`);
 const price = document.querySelector(`[name='housing-price']`);
 const roomNumber = document.querySelector(`[name='housing-rooms']`);
@@ -54,10 +55,10 @@ const getFilteredList = () => {
 };
 
 const resetFilter = () => {
-  type.selectedIndex = 0;
-  price.selectedIndex = 0;
-  roomNumber.selectedIndex = 0;
-  guestNumber.selectedIndex = 0;
+  type.selectedIndex = INITIAL_SELECT_INDEX;
+  price.selectedIndex = INITIAL_SELECT_INDEX;
+  roomNumber.selectedIndex = INITIAL_SELECT_INDEX;
+  guestNumber.selectedIndex = INITIAL_SELECT_INDEX;
   Array.from(document.querySelectorAll(`[name='features']:checked`))
     .forEach((selectedFeature) => selectedFeature.checked = false);
 }

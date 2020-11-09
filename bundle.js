@@ -276,6 +276,12 @@ const ProprtyFeature = {
   elevator: `popup__feature--elevator`,
   conditioner: `popup__feature--conditioner`
 };
+const PHOTO_ELEMENT = {
+  TAG: `img`,
+  WIDTH: `45`,
+  HEIGT: `40`,
+  DESCRIPTION: `Фотография жилья`
+}
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const map = document.querySelector(`.map`);
@@ -286,11 +292,11 @@ const getPropertyPhotos = (advert, cardElement) => {
   const photos = Array.from(advert.offer.photos);
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < photos.length; i++) {
-    const photoElement = document.createElement(`img`);
+    const photoElement = document.createElement(PHOTO_ELEMENT.TAG);
     photoElement.src = `${advert.offer.photos[i]}`;
-    photoElement.width = `45`;
-    photoElement.height = `40`;
-    photoElement.alt = `Фотография жилья`;
+    photoElement.width = PHOTO_ELEMENT.WIDTH;
+    photoElement.height = PHOTO_ELEMENT.HEIGT;
+    photoElement.alt = PHOTO_ELEMENT.DESCRIPTION;
     photoElement.classList.add(`popup__photo`);
     fragment.appendChild(photoElement);
   }
@@ -485,7 +491,12 @@ window.formValidation = {
 
 
 const FILE_TYPES = [`jpg`, `jpeg`, `png`];
-const DEFAULT_AVATAR = `img/muffin-grey.svg`
+const DEFAULT_AVATAR = `img/muffin-grey.svg`;
+const PREVIEW_ELEMENT = {
+  TAG: `img`,
+  WIDTH: `70`,
+  HEIGHT: `70`
+}
 const advertForm = document.querySelector(`.ad-form`);
 const avatarChooser = advertForm.querySelector(`.ad-form-header__input`);
 const avatarPreview = advertForm.querySelector(`.ad-form-header__preview img`);
@@ -507,10 +518,10 @@ const uploadImgFile = (imgChooser, preview) => {
       if (preview.tagName === `IMG`) {
         preview.src = reader.result;
       } else {
-        const previewElement = document.createElement(`img`);
+        const previewElement = document.createElement(PREVIEW_ELEMENT.TAG);
         previewElement.src = reader.result;
-        previewElement.width = `70`;
-        previewElement.height = `70`;
+        previewElement.width = PREVIEW_ELEMENT.WIDTH;
+        previewElement.height = PREVIEW_ELEMENT.HEIGHT;
         preview.appendChild(previewElement);
       }
     });
@@ -653,6 +664,7 @@ const Price = {
   LOW: 10000,
   HIGH: 50000
 };
+const INITIAL_SELECT_INDEX = 0;
 const type = document.querySelector(`[name='housing-type']`);
 const price = document.querySelector(`[name='housing-price']`);
 const roomNumber = document.querySelector(`[name='housing-rooms']`);
@@ -703,10 +715,10 @@ const getFilteredList = () => {
 };
 
 const resetFilter = () => {
-  type.selectedIndex = 0;
-  price.selectedIndex = 0;
-  roomNumber.selectedIndex = 0;
-  guestNumber.selectedIndex = 0;
+  type.selectedIndex = INITIAL_SELECT_INDEX;
+  price.selectedIndex = INITIAL_SELECT_INDEX;
+  roomNumber.selectedIndex = INITIAL_SELECT_INDEX;
+  guestNumber.selectedIndex = INITIAL_SELECT_INDEX;
   Array.from(document.querySelectorAll(`[name='features']:checked`))
     .forEach((selectedFeature) => selectedFeature.checked = false);
 }
