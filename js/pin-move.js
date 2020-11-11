@@ -2,18 +2,21 @@
 
 const PIN_SIZE = {
   WIDTH: 65,
-  HEIGHT: 88
+  HEIGHT: 84
 };
 const map = document.querySelector(`.map`);
 const margin = map.getBoundingClientRect().x;
-const adjustment = margin + (PIN_SIZE.WIDTH / 2);
+const Adjustment = {
+  X: Math.round(PIN_SIZE.WIDTH / 2),
+  Y: PIN_SIZE.HEIGHT
+};
 const MOVE_X_LIMIT = {
-  MIN: margin,
-  MAX: margin + map.offsetWidth
+  MIN: 0 - Adjustment.X,
+  MAX: map.offsetWidth - Adjustment.X
 };
 const MOVE_Y_LIMIT = {
-  MIN: 130,
-  MAX: 630
+  MIN: 130 - Adjustment.Y,
+  MAX: 630 - Adjustment.Y
 };
 const mainPin = map.querySelector(`.map__pin--main`);
 const advertForm = document.querySelector(`.ad-form`);
@@ -23,13 +26,13 @@ const DEFAULT_POSITION = {
   Y: mainPin.offsetTop
 };
 
-const setCoords = (startCoords, property, limitMin, limitMax, endCoords, adj = 0) => {
-  if (startCoords < limitMin) {
-    mainPin.style[property] = limitMin - adj + `px`;
-  } else if (startCoords > limitMax) {
-    mainPin.style[property] = limitMax - adj + `px`;
+const setCoords = (property, limitMin, limitMax, pinEndCoords) => {
+  if (pinEndCoords < limitMin) {
+    mainPin.style[property] = limitMin + `px`;
+  } else if (pinEndCoords > limitMax ) {
+    mainPin.style[property] = limitMax + `px`;
   } else {
-    mainPin.style[property] = endCoords + `px`;
+    mainPin.style[property] = pinEndCoords + `px`;
   }
 };
 
@@ -39,15 +42,15 @@ const setDefualtPosition = () => {
 };
 
 const setAddress = () => {
-  const x = Math.round(mainPin.offsetLeft + PIN_SIZE.WIDTH / 2 - 1);
-  const y = mainPin.offsetTop + PIN_SIZE.HEIGHT;
+  const x = mainPin.offsetLeft + Adjustment.X;
+  const y = mainPin.offsetTop + Adjustment.Y;
   addressInput.value = `${x}, ${y}`;
 };
 
 const onMouseDown = (evt) => {
   evt.preventDefault();
 
-  const startCoords = {
+  const mouseStartCoords = {
     x: evt.clientX,
     y: evt.pageY
   };
@@ -56,20 +59,20 @@ const onMouseDown = (evt) => {
     moveEvt.preventDefault();
 
     const move = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.pageY
+      x: mouseStartCoords.x - moveEvt.clientX,
+      y: mouseStartCoords.y - moveEvt.pageY
     };
 
-    startCoords.x = moveEvt.clientX;
-    startCoords.y = moveEvt.pageY;
+    mouseStartCoords.x = moveEvt.clientX;
+    mouseStartCoords.y = moveEvt.pageY;
 
-    const endCoords = {
+    const pinEndCoords = {
       x: mainPin.offsetLeft - move.x,
       y: mainPin.offsetTop - move.y
     };
 
-    setCoords(startCoords.x, `left`, MOVE_X_LIMIT.MIN, MOVE_X_LIMIT.MAX, endCoords.x, adjustment);
-    setCoords(startCoords.y, `top`, MOVE_Y_LIMIT.MIN, MOVE_Y_LIMIT.MAX, endCoords.y);
+    setCoords(`left`, MOVE_X_LIMIT.MIN, MOVE_X_LIMIT.MAX, pinEndCoords.x);
+    setCoords(`top`, MOVE_Y_LIMIT.MIN, MOVE_Y_LIMIT.MAX, pinEndCoords.y);
 
     setAddress();
   };
