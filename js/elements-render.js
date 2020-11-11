@@ -21,6 +21,14 @@ const PHOTO_ELEMENT = {
   HEIGT: `40`,
   DESCRIPTION: `Фотография жилья`
 };
+const PIN_SIZE = {
+  WIDTH: 50,
+  HEIGHT: 70
+}
+const PinCoordsAdjustment = {
+  X: PIN_SIZE.WIDTH / 2,
+  Y: PIN_SIZE.HEIGHT
+};
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const map = document.querySelector(`.map`);
@@ -64,7 +72,7 @@ const renderData = (element, block, type, value) => {
 
 const renderPin = (advert) => {
   const pinElement = pinTemplate.cloneNode(true);
-  pinElement.style = `top: ${advert.location.y + pinElement.offsetHeight / 2}px; left: ${advert.location.x + pinElement.offsetWidth / 2}px`;
+  pinElement.style = `top: ${advert.location.y - PinCoordsAdjustment.Y}px; left: ${advert.location.x - PinCoordsAdjustment.X}px`;
   renderData(pinElement, `img`, `src`, `${advert.author.avatar}`);
   renderData(pinElement, `img`, `alt`, `${advert.offer.title}`);
   return pinElement;
