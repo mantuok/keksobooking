@@ -8,7 +8,7 @@ const Key = {
 const onPopupOpen = (targetPinName) => {
   window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
   document.querySelector(`img[alt='${targetPinName}']`).classList.add(`map__pin--active`);
-  document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, onPopupClose));
+  document.addEventListener(`keydown`, onEscKeydown);
   document.querySelector(`.popup__close`).addEventListener(`click`, onPopupClose);
 };
 
@@ -19,10 +19,10 @@ const onPopupClose = () => {
     card.remove();
     pin.classList.remove(`map__pin--active`);
   }
-  document.removeEventListener(`keydown`, () => {
-    return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
-  });
+  document.removeEventListener(`keydown`, onEscKeydown);
 };
+
+const onEscKeydown = window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);
 
 window.cardPopup = {
   open: onPopupOpen,
