@@ -206,6 +206,11 @@ const setElementsEnabled = (elements, enabled) => {
   });
 };
 
+const onSuccessDownload = (adverts) => {
+  window.elementsRender.renderAllPins(adverts);
+  window.advertsList = adverts;
+};
+
 const deactivatePage = () => {
   setElementsEnabled(advertFormElements, false);
   setElementsEnabled(mapFilters, false);
@@ -219,12 +224,11 @@ const deactivatePage = () => {
 };
 
 const activatePage = () => {
-  window.elementsRender.renderAllPins(window.advertsList);
+  window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
-  if (map.querySelector(`.map__pin:not(.map__pin--main)`)) {
-    setElementsEnabled(mapFilters, true);
-  }
+  filterForm.classList.remove(`map__filters--disabled`);
+  setElementsEnabled(mapFilters, true);
   setElementsEnabled(advertFormElements, true);
   setElementsEnabled(mapCheckboxes, true);
   mapPinMain.removeEventListener(`mousedown`, activateOnMousedown);
@@ -772,10 +776,6 @@ const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features'
 const pins = document.querySelector(`.map__pins`);
 const submitButton = advertForm.querySelector(`.ad-form__submit`);
 
-const onSuccessDownload = (adverts) => {
-  window.advertsList = adverts;
-};
-
 const onSuccesUpload = () => {
   window.messageHandler.show(`success`);
   window.pageMode.reset();
@@ -795,8 +795,6 @@ const filterChangeHandler = window.debounce(() => {
 });
 
 window.pageMode.deactivate();
-
-window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
 mapPinMain.addEventListener(`mousedown`, (evt) => {
   return window.pinMove.move(evt);
@@ -877,14 +875,17 @@ const Key = {
 
 const onPopupOpen = (targetPinName) => {
   window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
+  document.querySelector(`img[alt='${targetPinName}']`).classList.add(`map__pin--active`);
   document.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ESC, onPopupClose));
   document.querySelector(`.popup__close`).addEventListener(`click`, onPopupClose);
 };
 
 const onPopupClose = () => {
   const card = document.querySelector(`.map__card`);
+  const pin = document.querySelector(`.map__pin--active`);
   if (card) {
     card.remove();
+    pin.classList.remove(`map__pin--active`);
   }
   document.removeEventListener(`keydown`, () => {
     return window.utils.invokeIfKeyIs(Key.ESC, onPopupClose);

@@ -21,6 +21,11 @@ const setElementsEnabled = (elements, enabled) => {
   });
 };
 
+const onSuccessDownload = (adverts) => {
+  window.elementsRender.renderAllPins(adverts);
+  window.advertsList = adverts;
+};
+
 const deactivatePage = () => {
   setElementsEnabled(advertFormElements, false);
   setElementsEnabled(mapFilters, false);
@@ -34,12 +39,11 @@ const deactivatePage = () => {
 };
 
 const activatePage = () => {
-  window.elementsRender.renderAllPins(window.advertsList);
+  window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
   map.classList.remove(`map--faded`);
   advertForm.classList.remove(`ad-form--disabled`);
-  if (map.querySelector(`.map__pin:not(.map__pin--main)`)) {
-    setElementsEnabled(mapFilters, true);
-  }
+  filterForm.classList.remove(`map__filters--disabled`);
+  setElementsEnabled(mapFilters, true);
   setElementsEnabled(advertFormElements, true);
   setElementsEnabled(mapCheckboxes, true);
   mapPinMain.removeEventListener(`mousedown`, activateOnMousedown);

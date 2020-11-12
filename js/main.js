@@ -22,10 +22,6 @@ const filtersByFeatures = Array.from(document.querySelectorAll(`[name='features'
 const pins = document.querySelector(`.map__pins`);
 const submitButton = advertForm.querySelector(`.ad-form__submit`);
 
-const onSuccessDownload = (adverts) => {
-  window.advertsList = adverts;
-};
-
 const onSuccesUpload = () => {
   window.messageHandler.show(`success`);
   window.pageMode.reset();
@@ -45,8 +41,6 @@ const filterChangeHandler = window.debounce(() => {
 });
 
 window.pageMode.deactivate();
-
-window.backend.download(onSuccessDownload, window.messageHandler.onDownloadError);
 
 mapPinMain.addEventListener(`mousedown`, (evt) => {
   return window.pinMove.move(evt);
