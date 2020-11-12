@@ -34,8 +34,8 @@ const deactivatePage = () => {
   filterForm.classList.add(`map__filters--disabled`);
   advertForm.classList.add(`ad-form--disabled`);
   window.pinMove.setAddress();
-  mapPinMain.addEventListener(`mousedown`, activateOnMousedown);
-  mapPinMain.addEventListener(`keydown`, activateOnKeydown);
+  mapPinMain.addEventListener(`mousedown`, onLeftButtonMousedown);
+  mapPinMain.addEventListener(`keydown`, onEnterKeydown);
 };
 
 const activatePage = () => {
@@ -46,12 +46,12 @@ const activatePage = () => {
   setElementsEnabled(mapFilters, true);
   setElementsEnabled(advertFormElements, true);
   setElementsEnabled(mapCheckboxes, true);
-  mapPinMain.removeEventListener(`mousedown`, activateOnMousedown);
-  mapPinMain.removeEventListener(`keydown`, activateOnKeydown);
+  mapPinMain.removeEventListener(`mousedown`, onLeftButtonMousedown);
+  mapPinMain.removeEventListener(`keydown`, onEnterKeydown);
 };
 
-const activateOnMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
-const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
+const onLeftButtonMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
+const onEnterKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 const resetPage = () => {
   advertForm.reset();

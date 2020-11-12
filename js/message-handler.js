@@ -22,32 +22,32 @@ const renderMessage = (status) => {
 const onDownloadError = (errorMessage) => {
   renderMessage(`error`);
   document.querySelector(`.error__message`).textContent = errorMessage;
-  document.addEventListener(`click`, closeMessage);
-  document.addEventListener(`keydown`, closeOnEsc);
+  document.addEventListener(`click`, onMessageClose);
+  document.addEventListener(`keydown`, onEscKeydown);
 };
 
-const showMessage = (status) => {
+const onMessageOpen = (status) => {
   renderMessage(`${status}`);
-  document.addEventListener(`click`, closeMessage);
-  document.addEventListener(`keydown`, closeOnEsc);
+  document.addEventListener(`click`, onMessageClose);
+  document.addEventListener(`keydown`, onEscKeydown);
   if (document.querySelector(`.error__button`)) {
-    document.querySelector(`.error__button`).addEventListener(`click`, closeMessage);
+    document.querySelector(`.error__button`).addEventListener(`click`, onMessageClose);
   }
 };
 
-const closeMessage = () => {
+const onMessageClose = () => {
   if (document.querySelector(`.success`)) {
     document.querySelector(`.success`).remove();
   } else {
     document.querySelector(`.error`).remove();
   }
-  document.removeEventListener(`click`, closeMessage);
-  document.removeEventListener(`keydown`, closeOnEsc);
+  document.removeEventListener(`click`, onMessageClose);
+  document.removeEventListener(`keydown`, onEscKeydown);
 };
 
-const closeOnEsc = window.utils.invokeIfKeyIs(Key.ESC, closeMessage);
+const onEscKeydown = window.utils.invokeIfKeyIs(Key.ESC, onMessageClose);
 
 window.messageHandler = {
   onDownloadError,
-  show: showMessage
+  show: onMessageOpen
 };

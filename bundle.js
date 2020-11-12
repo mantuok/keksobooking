@@ -145,34 +145,34 @@ const renderMessage = (status) => {
 const onDownloadError = (errorMessage) => {
   renderMessage(`error`);
   document.querySelector(`.error__message`).textContent = errorMessage;
-  document.addEventListener(`click`, closeMessage);
-  document.addEventListener(`keydown`, closeOnEsc);
+  document.addEventListener(`click`, onMessageClose);
+  document.addEventListener(`keydown`, onEscKeydown);
 };
 
-const showMessage = (status) => {
+const onMessageOpen = (status) => {
   renderMessage(`${status}`);
-  document.addEventListener(`click`, closeMessage);
-  document.addEventListener(`keydown`, closeOnEsc);
+  document.addEventListener(`click`, onMessageClose);
+  document.addEventListener(`keydown`, onEscKeydown);
   if (document.querySelector(`.error__button`)) {
-    document.querySelector(`.error__button`).addEventListener(`click`, closeMessage);
+    document.querySelector(`.error__button`).addEventListener(`click`, onMessageClose);
   }
 };
 
-const closeMessage = () => {
+const onMessageClose = () => {
   if (document.querySelector(`.success`)) {
     document.querySelector(`.success`).remove();
   } else {
     document.querySelector(`.error`).remove();
   }
-  document.removeEventListener(`click`, closeMessage);
-  document.removeEventListener(`keydown`, closeOnEsc);
+  document.removeEventListener(`click`, onMessageClose);
+  document.removeEventListener(`keydown`, onEscKeydown);
 };
 
-const closeOnEsc = window.utils.invokeIfKeyIs(Key.ESC, closeMessage);
+const onEscKeydown = window.utils.invokeIfKeyIs(Key.ESC, onMessageClose);
 
 window.messageHandler = {
   onDownloadError,
-  show: showMessage
+  show: onMessageOpen
 };
 
 })();
@@ -219,8 +219,8 @@ const deactivatePage = () => {
   filterForm.classList.add(`map__filters--disabled`);
   advertForm.classList.add(`ad-form--disabled`);
   window.pinMove.setAddress();
-  mapPinMain.addEventListener(`mousedown`, activateOnMousedown);
-  mapPinMain.addEventListener(`keydown`, activateOnKeydown);
+  mapPinMain.addEventListener(`mousedown`, onLeftButtonMousedown);
+  mapPinMain.addEventListener(`keydown`, onEnterKeydown);
 };
 
 const activatePage = () => {
@@ -231,12 +231,12 @@ const activatePage = () => {
   setElementsEnabled(mapFilters, true);
   setElementsEnabled(advertFormElements, true);
   setElementsEnabled(mapCheckboxes, true);
-  mapPinMain.removeEventListener(`mousedown`, activateOnMousedown);
-  mapPinMain.removeEventListener(`keydown`, activateOnKeydown);
+  mapPinMain.removeEventListener(`mousedown`, onLeftButtonMousedown);
+  mapPinMain.removeEventListener(`keydown`, onEnterKeydown);
 };
 
-const activateOnMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
-const activateOnKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
+const onLeftButtonMousedown = window.utils.invokeIfButtonIs(Mouse.LEFT_BUTTON, activatePage);
+const onEnterKeydown = window.utils.invokeIfKeyIs(Key.ENTER, activatePage);
 
 const resetPage = () => {
   advertForm.reset();
