@@ -5,7 +5,6 @@ const PIN_SIZE = {
   HEIGHT: 84
 };
 const map = document.querySelector(`.map`);
-const margin = map.getBoundingClientRect().x;
 const Adjustment = {
   X: Math.round(PIN_SIZE.WIDTH / 2),
   Y: PIN_SIZE.HEIGHT
@@ -29,7 +28,7 @@ const DEFAULT_POSITION = {
 const setCoords = (property, limitMin, limitMax, pinEndCoords) => {
   if (pinEndCoords < limitMin) {
     mainPin.style[property] = limitMin + `px`;
-  } else if (pinEndCoords > limitMax ) {
+  } else if (pinEndCoords > limitMax) {
     mainPin.style[property] = limitMax + `px`;
   } else {
     mainPin.style[property] = pinEndCoords + `px`;

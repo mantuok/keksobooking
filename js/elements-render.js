@@ -24,7 +24,7 @@ const PHOTO_ELEMENT = {
 const PIN_SIZE = {
   WIDTH: 50,
   HEIGHT: 70
-}
+};
 const PinCoordsAdjustment = {
   X: PIN_SIZE.WIDTH / 2,
   Y: PIN_SIZE.HEIGHT
