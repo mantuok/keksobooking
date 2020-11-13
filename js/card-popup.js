@@ -7,7 +7,7 @@ const Key = {
 
 const onPopupOpen = (targetPinName) => {
   window.elementsRender.renderSelectedCard(Array.from(window.advertsList), targetPinName);
-  document.querySelector(`img[alt='${targetPinName}']`).classList.add(`map__pin--active`);
+  document.querySelector(`img[alt='${targetPinName}']`).parentNode.classList.add(`map__pin--active`);
   document.addEventListener(`keydown`, onEscKeydown);
   document.querySelector(`.popup__close`).addEventListener(`click`, onPopupClose);
 };
