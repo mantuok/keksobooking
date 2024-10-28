@@ -17,8 +17,14 @@ module.exports = {
   ],
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname),
-    iife: true
+    path: path.resolve(__dirname), // or 'build' or 'public'
+    iife: true,
+  },
+    devServer: {
+    static: path.resolve(__dirname),
+    hot: true,
+    open: true,
+    port: 3000, // You can change the port if needed
   },
   devtool: false
 }

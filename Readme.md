@@ -1,52 +1,30 @@
-# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
+# Keksobooking - Apartment Booking Web App
 
-* Студент: [Светлана Елисеева](https://up.htmlacademy.ru/javascript/21/user/1408525).
-* Наставник: [Даниил Царёв](https://htmlacademy.ru/profile/id945835).
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
 
----
+## Overview
+**Keksobooking** is a responsive web application for booking apartments. This project is built using **Vanilla JavaScript**, HTML5, and CSS3. It allows users to view, filter, and select available apartments based on various criteria, and provides a streamlined booking experience.
 
-_Не удаляйте и не обращайте внимание на файлы:_<br>
-_`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `.travis.yml`, `package-lock.json`, `package.json`._
+## Features
+- **Interactive map** with markers showing available apartments.
+- **Filter functionality** to search apartments by price, type, number of rooms, etc.
+- **Form validation** to ensure that users provide correct input.
+- **Real-time price calculations** based on apartment features.
+- **Responsive design** for optimal viewing on desktops, tablets, and mobile devices.
+- **Gulp task runner** setup for automated development workflows.
 
----
+## Technologies Used
+- **HTML5** for the structure of the web app.
+- **CSS3** for responsive design and layout.
+- **Vanilla JavaScript (ES6+)** for dynamic interactivity.
+- **Webpack** for bundling and managing dependencies.
 
-### Памятка
-
-#### 1. Зарегистрируйтесь на Гитхабе
-
-Если у вас ещё нет аккаунта на [github.com](https://github.com/join), скорее зарегистрируйтесь.
-
-#### 2. Создайте форк
-
-Откройте репозиторий и нажмите кнопку «Fork» в правом верхнем углу. Репозиторий из Академии будет скопирован в ваш аккаунт.
-
-<img width="769" alt="" src="https://user-images.githubusercontent.com/10909/35275195-078bb816-0050-11e8-8708-89266d2fae5d.png">
-
-Получится вот так:
-
-<img width="769" alt="" src="https://user-images.githubusercontent.com/10909/35275196-07baf78e-0050-11e8-9275-404a4b63efb1.png">
-
-#### 3. Клонируйте репозиторий на свой компьютер
-
-Будьте внимательны: нужно клонировать свой репозиторий (форк), а не репозиторий Академии. Также обратите внимание, что клонировать репозиторий нужно через SSH, а не через HTTPS. Нажмите зелёную кнопку в правой части экрана, чтобы скопировать SSH-адрес вашего репозитория:
-
-<img width="769" alt="" src="https://user-images.githubusercontent.com/10909/35275197-07d8e79e-0050-11e8-95c1-a30a433687d8.png">
-
-Клонировать репозиторий можно так:
-
-```
-git clone SSH-адрес_вашего_форка
-```
-
-Команда клонирует репозиторий на ваш компьютер и подготовит всё необходимое для старта работы.
-
-#### 4. Начинайте обучение!
-
----
-
-<a href="https://htmlacademy.ru/intensive/javascript"><img align="left" width="50" height="50" alt="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github-2.png"></a>
-
-Репозиторий создан для обучения на интенсивном онлайн‑курсе «[JavaScript. Профессиональная разработка веб-интерфейсов](https://htmlacademy.ru/intensive/javascript)» от [HTML Academy](https://htmlacademy.ru).
-
-[travis-image]: https://travis-ci.com/htmlacademy-javascript/1408525-keksobooking-21.svg?branch=master
-[travis-url]: https://travis-ci.com/htmlacademy-javascript/1408525-keksobooking-21
+## Installation
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/keksobooking.git
+   cd keksobooking
